@@ -1,0 +1,124 @@
+
+.rec{
+	height: 100%;
+	.ivu-col{
+		height: 100%;
+		.myTabs{
+			height: 100%;
+			.ivu-tabs-content-animated{
+				position: absolute;
+				top:40px;
+				left: 0;
+				right: 0;
+				bottom:0px;
+			}
+			.ivu-tabs-bar{
+				margin-bottom:8px;
+			}
+			.ivu-tabs-nav{
+				width: 100%;
+				.ivu-tabs-ink-bar{
+					width: 50% !important;
+				}
+				.ivu-tabs-tab{
+					width: 50% !important;
+					margin:0;
+					text-align: center;
+					padding:6px 16px;
+				}
+			}
+		}
+		.channelList{
+			position: relative;
+			height: 100%;
+			box-shadow: 1px 1px 1px 1px rgba(100, 100, 100, 0.1);
+			ul{
+				position: absolute;
+				top: 37px;
+				bottom: 0;
+				left: 0;
+				right: 0;
+				overflow: auto;
+				padding:0 5px 2px 5px;
+				li{
+					padding:8px 5px;
+					border-radius: 4px;
+					cursor: pointer;
+					white-space:nowrap; 
+					text-overflow:ellipsis; 
+					-o-text-overflow:ellipsis; 
+					overflow: hidden; 
+					&:hover{
+						color:#2d8cf0;
+						background: #EAF4FE;
+					}
+					&.active{
+						background:#2d8cf0;
+						color:#fff;
+					}
+				}
+			}	
+		}
+		.main{
+			position: relative;
+			height: 100%;
+			.search{
+				position: absolute;
+				top: 0;
+				left: 0;
+				right: 0;
+			}
+			.content{
+				position: absolute;
+				top: 40px;
+				bottom: 0px;
+				left: 0;
+				right: 0;
+				border:1px solid #ddd;
+				overflow: auto;
+				&>p{
+					text-align: center;
+					padding:3px;
+					border-top:1px dotted #ddd;
+				}
+				
+				div.contentshow{
+					.title{
+						background: #efefef;
+					}
+					div{
+						padding:3px 5px;
+						video,audio{
+							box-shadow: 1px 1px 1px 1px rgba(100, 100, 100, 0.1);
+						}
+						video{
+							margin-bottom: -1px;
+						}
+					}
+				}
+				div.contenthide{
+					width: 100%;
+					text-align: center;
+					height: 60px;
+					line-height: 60px;
+					font-size: 40px;
+					font-weight: bold;
+					color:#efefef;
+					position: absolute;
+					top:50%;
+					transform: translateY(-50%);
+				}
+			}
+			.page{
+				position: absolute;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				padding: 4px;
+				.ivu-page{
+					float: right;
+				}
+			}
+		}
+	}
+}
