@@ -11,10 +11,10 @@
 <template>
 	<div class="alarm">
 		<div class="btns">
-			<Select v-model="alarmState" @on-change="_getMes" style="width:100px;margin-right:10px;">
+			<Select v-model="alarmState" @on-change="searchChange" style="width:100px;margin-right:10px;">
 		        <Option v-for="item in alarmStateList" :value="item.value" :key="item.value">{{ item.label }}</Option>
 		    </Select>
-			<DatePicker @on-change="_getMes" v-model="DatePickervalue" :value="DatePickervalue" type="datetimerange" split-panels format="yyyy-MM-dd HH:mm:ss" :placeholder="rec_tab_datePicker_placeholder" style="width: 300px;margin-right:10px;"></DatePicker>
+			<DatePicker @on-change="searchChange" v-model="DatePickervalue" :value="DatePickervalue" type="datetimerange" split-panels format="yyyy-MM-dd HH:mm:ss" :placeholder="rec_tab_datePicker_placeholder" style="width: 300px;margin-right:10px;"></DatePicker>
 		</div>	
 		<div class="alarmTable" ref="alarmTable">
 	    	<Table stripe :columns="columns" :data="tableData" ></Table>
@@ -383,6 +383,7 @@ export default {
 	    },
 	},
 	methods: {
+
 		_getMes(){
 			let _this = this
 			let params={
@@ -444,6 +445,10 @@ export default {
 				
 			}
 			return data
+		},
+		searchChange(){
+			this.pages.page = 1
+			this._getMes()
 		},
 		closeConfirm(n){
 			this.closeMes.alarmState = n
