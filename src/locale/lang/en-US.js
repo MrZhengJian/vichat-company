@@ -1,4 +1,6 @@
 export default {
+current_page:'Current Page',
+selected_item:'Selected',
 orgNameCantEmpty:'Organization name cannot be empty',
 roidCantEmpty:'Role name cannot be empty',
 user_add:'Add',

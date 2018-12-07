@@ -1,4 +1,6 @@
 export default {
+current_page:'当前页',
+selected_item:'所选项',
 orgNameCantEmpty:'组织名不能为空',
 roidCantEmpty:'角色名不能为空',
 user_add:'人员管理-添加',

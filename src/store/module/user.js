@@ -100,8 +100,8 @@ export default {
       return new Promise((resolve, reject) => {
         getUserInfo(state.token).then(res => {
           const data = res.data
-          localStorage.setItem('account_uname',data.obj.user.userName)
-          localStorage.setItem('account_uid',data.obj.user.uid)
+          localStorage.setItem('company_account_uname',data.obj.user.userName)
+          localStorage.setItem('company_account_uid',data.obj.user.uid)
           commit('setUserObj', data.obj.user)
           commit('setUserOrg', data.obj.userOrg)
           commit('setUserPartyCompany', data.obj.userPartyCompany)

@@ -9,7 +9,18 @@
 <template>
 	<div class="table">
 		<p class="btn-group">
-            <Button type="primary" v-if="accessList.user_export" @click="exportData">{{$t('user_table_btn_export')}}</Button>
+            <!-- <Button type="primary" v-if="accessList.user_export" @click="exportData">{{$t('user_table_btn_export')}}</Button> -->
+            <Dropdown style="float:right" trigger="click" @on-click="exportData">
+                <Button type="primary">
+                    {{$t('user_table_btn_export')}}
+                    <Icon type="ios-arrow-down"></Icon>
+                </Button>
+                <DropdownMenu slot="list">
+                    <DropdownItem name='1'>{{$t('all')}}</DropdownItem>
+                    <DropdownItem name='2'>{{$t('current_page')}}</DropdownItem>
+                    <DropdownItem name='3'>{{$t('selected_item')}}</DropdownItem>
+                </DropdownMenu>
+            </Dropdown>
             <!-- <Button type="primary" v-if="accessList.user_import" @click="batchImportModal">{{$t('user_table_btn_batchImport')}}</Button> -->
             <Button type="primary" v-if="accessList.user_location" @click="btnClick(4)">{{$t('user_table_btn_location')}}</Button>
             <Button type="primary" v-if="accessList.user_del" @click="btnClick(3)">{{$t('user_table_btn_delete')}}</Button>
@@ -277,7 +288,7 @@ import uploadExcel from '@/view/excel/upload-excel'
 import orgTree from '@/view/common-components/org-tree/table-tree'
 import expandRow from './table-expend'
 import {dateFormat} from '@/libs/tools'
-import { saveEdposUser, deleteEdposUser, chgEdposUserOrg, chgUserPassword, imsPush, loadSysStaticData, batchDeleteUser,batchUpdateUserRole,batchUpdateUserExpiredDate,getSecRoleByUid,batchCheckUsers,batchSaveUserBasic} from '@/api/user-manage'
+import { saveEdposUser, deleteEdposUser, chgEdposUserOrg, chgUserPassword, imsPush, loadSysStaticData, batchDeleteUser,batchUpdateUserRole,batchUpdateUserExpiredDate,getSecRoleByUid,batchCheckUsers,batchSaveUserBasic,queryEdposUsers} from '@/api/user-manage'
 import {queryPrisonSecRole} from '@/api/role'
 export default {
   props: {
@@ -304,6 +315,7 @@ export default {
   created: function () {
     this._getMes()
     this._getRoleAssignList()
+    
   },
   // mounted:function(){
   //   console.log(this.accessList)
@@ -355,7 +367,8 @@ export default {
     };
 
     return {
-       accessList:{
+      allUser:[],
+      accessList:{
         "user_pwd":this.$store.state.user.funcObj.user_pwd||false,
         "user_edit":this.$store.state.user.funcObj.user_edit||false,
         "user_export":this.$store.state.user.funcObj.user_export||false,
@@ -1101,13 +1114,32 @@ export default {
         arr[i].expiredDate = dateFormat(new Date(arr[i].expiredDate), 'yyyy-MM-dd')
       }
       this.selectionUid = []
+      this.selection = []
       return arr
     },
-    exportData () {
+    exportData (n) {
+        let _this = this
+        let data = []
+        if(n=='1'){
+            queryEdposUsers()
+            .then(res=>{
+                data = _this.turnData(res.data.data)
+                _this.exportData1(data)
+            })
+        }else if(n=='2'){
+            data = this.tableData
+            this.exportData1(data)
+        }else if(n=='3'){
+            data = this.selection
+            this.exportData1(data)
+        }
+      
+    },
+    exportData1(data){
       this.$refs.table.exportCsv({
         filename: this.$t('user_table_information'),
         columns: this.columns.filter((col, index) => ((index > 1 && index < 6) || index == 7)),
-        data: this.tableData.filter((data, index) => (index >= 0))
+        data: data
       })
     },
     roleAssign(params){
