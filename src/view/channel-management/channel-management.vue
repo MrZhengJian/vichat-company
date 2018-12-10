@@ -200,7 +200,7 @@ export default {
                   type: 'text',
                   size: 'small'
                 }
-              }, this.$t('channel_col_view')),
+              }, this.$t('member')),
               h('Button', {
                 on: {
                   click: () => {

@@ -1,4 +1,5 @@
 export default {
+member:'成员',
 current_page:'当前页',
 selected_item:'所选项',
 orgNameCantEmpty:'组织名不能为空',
