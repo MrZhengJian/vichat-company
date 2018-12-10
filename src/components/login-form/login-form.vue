@@ -35,6 +35,7 @@ export default {
   name: 'LoginForm',
   data () {
     const validateAccount = (rule, value, callback) => {
+      value = value.trim()
         if (value == '') {
             callback(new Error(this.$t('user_table_account_rules')));
         } else if (value.length>20) {
@@ -44,6 +45,7 @@ export default {
         }
     };
     const validatePassword = (rule, value, callback) => {
+      value = value.trim()
         if (value == '') {
             callback(new Error(this.$t('login_pwd_rules')));
         } else if (value.length>16 || value.length<6) {

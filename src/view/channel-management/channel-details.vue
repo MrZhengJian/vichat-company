@@ -79,7 +79,7 @@
                     </span>
                     <div class="selectOrg-content">
                         <Select v-model='priority'>
-                            <Option v-for="item in priorityList" :value="item.value" :key="item.value">{{ item.desc }}</Option>
+                            <Option :disabled="item.value==10" v-for="item in priorityList" :value="item.value" :key="item.value">{{ item.desc }}</Option>
                         </Select>
 
                     </div>
@@ -101,6 +101,7 @@
                     :listStyle="listStyle"
                     :titles="transferTitle"
                     filterable
+                    :filter-method="filterMethod"
                     :operations="transferOperations"
                     @on-change="_onChange"
                     @on-selected-change="onSelectedChange"
@@ -153,13 +154,13 @@
         <Modal :title="modal4_title" v-model="modal4">
             <Form :model="empMes" :label-width="120">
                 <FormItem :label="user_table_col_role" >
-                    <Select v-model="empMes.adminGrade" :disabled='empMes.priority==10' style="width:300px" >
+                    <Select v-model="empMes.adminGrade" style="width:300px" >
                         <Option v-for="item in adminGradeList" :value="item.value" :key="item.value">{{ item.desc }}</Option>
                     </Select>
                 </FormItem>
                 <FormItem :label="priorityLabel" >
-                    <Select v-model="empMes.priority" :disabled='empMes.priority==10' style="width:300px" >
-                        <Option v-for="item in priorityList" :disabled='item.value==10' :value="item.value" :key="item.value">{{ item.desc }}</Option>
+                    <Select v-model="empMes.priority" style="width:300px" >
+                        <Option v-for="item in priorityList" :disabled='item.value==10&&empMes.adminGrade!=10' :value="item.value" :key="item.value">{{ item.desc }}</Option>
                     </Select>
                 </FormItem>
                 <FormItem :label="timelenLabel" style="width:300px">
@@ -185,9 +186,8 @@
 <script type="ecmascript-6">
 import orgTree from '@/view/common-components/org-tree/table-tree'
 import { queryRoomMembers,saveRoomMembers,deleteRoomMember,batchDeleteRoomMember,setRoomMemberAdminGrade } from '@/api/channel'
-import { batchQueryUsers } from '@/api/user-manage'
+import { batchQueryUsers,queryEdposUsers } from '@/api/user-manage'
 import { dateFormat } from '@/libs/tools'
-
 export default {
     components:{
         orgTree
@@ -752,6 +752,11 @@ export default {
         changePageSize(current){
             this.pages.rows = current
             this.getMes()
+        },
+        filterMethod(data, query){
+            data = data.label
+            query = query.toLowerCase()
+            return data.toLowerCase().indexOf(query) > -1;
         }
 	}
 }

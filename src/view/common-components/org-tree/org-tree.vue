@@ -8,7 +8,7 @@
     	background: #fff;
 
         box-shadow: 1px 1px 1px 1px rgba(100, 100, 100, 0.1);
-    	padding:5px 15px;
+    	padding:5px;
     	height:100%;
         overflow-y:auto;
         overflow-x:hidden;
@@ -19,6 +19,12 @@
     }
     .myTree ul li{
         margin:4px 0
+    }
+    .ivu-tree-title{
+        max-width: 100px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 </style>
 
@@ -116,5 +122,7 @@ export default {
         } 
 	}
 }
+
 </script>
+
 

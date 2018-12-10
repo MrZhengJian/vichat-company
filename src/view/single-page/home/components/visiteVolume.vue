@@ -176,7 +176,7 @@ export default {
       let _this = this
       chartData(url)
         .then(function (res) {
-          console.log(res)
+          // console.log(res)
           if (res.data.code==0) {
             if (!res.data.obj) {
               // _this.$Message.warning(_this.$t('home_echart_nocontent'))

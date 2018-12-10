@@ -68,6 +68,7 @@ import {registerCompany} from '@/api/register'
     	name: 'register',
     	data () {
     		const validateAccount = (rule, value, callback) => {
+    			value = value.trim()
 	            if (value === '') {
 	                callback(new Error(this.$t('user_table_account_rules')));
 	            } else if (value.length>20) {
@@ -79,6 +80,7 @@ import {registerCompany} from '@/api/register'
 	            }
 	        };
 	        const validatePassword = (rule, value, callback) => {
+	        	value = value.trim()
 	            if (value === '') {
 	                callback(new Error(this.$t('login_pwd_rules')));
 	            } else if (value.length>16 || value.length<6) {
@@ -90,6 +92,7 @@ import {registerCompany} from '@/api/register'
 	            }
 	        };
 	        const validateUserName = (rule, value, callback) => {
+	        	value = value.trim()
 	            if (value === '') {
 	                callback(new Error(this.$t('user_table_userName_rules')));
 	            } else if (value.length>20) {

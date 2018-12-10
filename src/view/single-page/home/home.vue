@@ -101,7 +101,7 @@ export default {
     created:function(){
 
         this.getCount()
-        console.log(this.$store.state.user)
+        // console.log(this.$store.state.user)
         let _this = this
         queryChannels({'page':1,'limit':4})
         .then(res=>{

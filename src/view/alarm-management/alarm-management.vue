@@ -22,6 +22,7 @@
 	    <div class="alarmPage">
 	        <div style="float: right;">
 	            <Page
+	            	ref="page"
                     @on-change="changePage"
                     @on-page-size-change="changePageSize"
                     :total=pages.total
@@ -447,6 +448,7 @@ export default {
 			return data
 		},
 		searchChange(){
+			this.$refs.page.currentPage=1
 			this.pages.page = 1
 			this._getMes()
 		},

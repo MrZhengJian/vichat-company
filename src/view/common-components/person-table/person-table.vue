@@ -322,6 +322,7 @@ export default {
   // },
   data () {
     const validateAccount = (rule, value, callback) => {
+        value = value.trim()
         if (value === '') {
             callback(new Error(this.$t('user_table_account_rules')));
         } else if (value.length>20) {
@@ -333,6 +334,7 @@ export default {
         }
     };
     const validatePassword = (rule, value, callback) => {
+        value = value.trim()
         if (value === '') {
             callback(new Error(this.$t('login_pwd_rules')));
         } else if (value.length>18 || value.length<6) {
@@ -344,6 +346,7 @@ export default {
         }
     };
     const validateRepassword = (rule, value, callback) => {
+        value = value.trim()
         if (value === '') {
             callback(new Error(this.$t('login_pwd_rules')));
         } else if (value.length>18 || value.length<6) {
@@ -357,6 +360,7 @@ export default {
         }
     };
     const validateUserName = (rule, value, callback) => {
+        value = value.trim()
         if (value === '') {
             callback(new Error(this.$t('user_table_userName_rules')));
         } else if (value.length>20) {
