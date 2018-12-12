@@ -27,8 +27,10 @@
             <Button type="primary" v-if="accessList.user_org" @click="btnClick(5)">{{$t('user_table_btn_org')}}</Button>
             <Button type="primary" v-if="accessList.user_role" @click="btnClick(8)">{{$t('user_table_col_role_assign')}}</Button>
             <!-- <Button type="primary" v-if="accessList.user_add" @click="openAddUser">{{$t('user_table_btn_add')}}</Button> -->
-            <Input search enter-button clearable @on-search="searchBox" v-model="searchTxt" :placeholder="user_table_search_placeholder" style="width: 250px;float:left"></Input>
-            
+            <Input search enter-button clearable @on-search="searchBox(0)" v-model="searchTxt" :placeholder="user_table_search_placeholder" style="width: 250px;float:left"></Input>
+            <Select v-model="searchUserType" style="width:200px;float:left;margin-left:20px;" clearable :placeholder="searchByUserType"  @on-change="searchBox(1)">
+                <Option v-for="item in employee_type_List"  :value="item.value" :key="item.value">{{ item.label }}</Option>
+            </Select>
         </p>
 		<div class="table-main">
             <Table ref="table" stripe @on-selection-change="tableSelection" :columns="columns" :data="tableData"></Table>
@@ -372,6 +374,7 @@ export default {
 
     return {
       allUser:[],
+      searchUserType:'',
       accessList:{
         "user_pwd":this.$store.state.user.funcObj.user_pwd||false,
         "user_edit":this.$store.state.user.funcObj.user_edit||false,
@@ -1075,9 +1078,14 @@ export default {
     changePageSize (pageSize) {
       this.$emit('search', ['limit', pageSize])
     },
-    searchBox () {
+    searchBox (n) {
       this.$refs.pages.currentPage=1
-      this.$emit('search', ['userName', this.searchTxt])
+      if(n==0){
+        this.$emit('search', ['userName', this.searchTxt])
+      }else if(n==1){
+        this.$emit('search', ['userType', this.searchUserType])
+      }
+      
     },
     // 获取所有被选择的员工的uid
     tableSelection (selection) {
@@ -1250,6 +1258,10 @@ export default {
       if (this.personData.length > 0) {
         return this.turnData(this.personData)
       }
+    },
+    
+    searchByUserType: function () {
+      return this.$t('searchByUserType')
     },
     user_table_search_placeholder: function () {
       return this.$t('user_table_search_placeholder')

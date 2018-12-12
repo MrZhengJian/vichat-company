@@ -35,22 +35,22 @@ class HttpRequest {
     // }, error => {
     //   return Promise.reject(error)
     // })
-    // 响应拦截
 
+    // 响应拦截
     instance.interceptors.response.use(res => {
       // this.distroy(url)
       if (res.data.code && res.data.code == -1) {
         router.push({
           name: 'login'
         })
-      } else if (res.data.code && res.data.code != 0 && res.data.i18nCode!='') {
+      } else if (res.data.code && res.data.code != 0 && res.data.i18nCode != '') {
         let i18nCode = '' + res.data.i18nCode
         Message.error(i18n.t(i18nCode))
         return res
-      } else if (res.data.code && res.data.code != 0 && res.data.i18nCode=='' && res.data.msg && res.data.msg!="") {
+      } else if (res.data.code && res.data.code != 0 && res.data.i18nCode == '' && res.data.msg && res.data.msg != '') {
         Message.error(res.data.msg)
         return res
-      } else if (res.data.code && res.data.code != 0 && res.data.i18nCode=='' && res.data.msg && res.data.msg=="") {
+      } else if (res.data.code && res.data.code != 0 && res.data.i18nCode == '' && res.data.msg && res.data.msg == '') {
         Message.error(i18n.t('unknown_error'))
         return res
       } else {
