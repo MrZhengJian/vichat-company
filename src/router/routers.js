@@ -146,6 +146,27 @@ export default [
     ]
   },
   {
+    path: '/_call_records',
+    name: '_call_records',
+    component: Main,
+    meta: {
+      icon: 'ios-call',
+      title: i18n.t('_call_records'),
+    },
+    children: [
+      {
+        path: '/call_records',
+        name: 'call_records',
+        meta: {
+          title: i18n.t('call_records'),
+          icon: 'ios-call',
+          hideInMenu: false,
+        },
+        component: () => import('@/view/call-records/call-records.vue')
+      },
+    ]
+  },
+  {
     path: '',
     name: 'amap',
     meta: {

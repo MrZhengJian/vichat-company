@@ -1,4 +1,7 @@
 export default {
+  select_user: '请选择用户',
+  select_group: '请选择频道',
+  select_time: '请选择时间',
   searchByUserType: '请选择用户类型',
   member: '成员',
   current_page: '当前页',
@@ -128,7 +131,8 @@ export default {
   channel: '频道管理',
   rec: '录制管理',
   alarm: '告警管理',
-
+  _call_records: '通话记录',
+  call_records: '通话记录',
   // main
   map: '地图调度',
   amap: '高德地图',

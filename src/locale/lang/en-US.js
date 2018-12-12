@@ -1,4 +1,7 @@
 export default {
+  select_user: 'Please choose the user',
+  select_group: 'Please choose the group',
+  select_time: 'Please choose the time',
   searchByUserType: 'Please select user type',
   member: 'Member',
   current_page: 'Current Page',
@@ -114,7 +117,8 @@ export default {
   ownspace: 'Ownspace',
   channel_details: 'Group Details',
   alarm_management: 'Alarm',
-
+  _call_records: 'Call Records',
+  call_records: 'Call Records',
   home: 'Home',
   _home: 'Home',
   login: 'Login',
@@ -371,7 +375,6 @@ export default {
   Type_StyleId6: 'Alarm Group',
 
   channel_create_time: 'Create Time',
-  priority: 'Priority',
   talkable_time: 'Poc Time',
   video_time: 'Video Time',
   Infinite: 'Infinite',
