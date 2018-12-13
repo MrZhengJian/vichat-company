@@ -1,10 +1,10 @@
 <template>
     <div class="call_records">
       <div class="btns">        
-        <Select v-model="searchMes.rid" filterable style="width:200px;float:left" clearable :placeholder="select_group"  @on-change="search">
+        <Select v-model="searchMes.rid" filterable style="width:200px;float:left" :placeholder="select_group"  @on-change="search">
             <Option v-for="item in group_List" :value="item.value" :key="item.value">{{ item.label }}</Option>
         </Select>
-        <Select v-model="searchMes.uid" filterable style="width:200px;float:left;margin-left:20px;" clearable :placeholder="select_user"  @on-change="search">
+        <Select v-model="searchMes.uid" filterable style="width:200px;float:left;margin-left:20px;" :placeholder="select_user"  @on-change="search">
             <Option v-for="item in user_List" :value="item.value" :key="item.value">{{ item.label }}</Option>
         </Select>
         <DatePicker v-model="searchMes.queryDate" type="date" clearable :placeholder="home_echart_select_date" style="width:200px;float:left;margin-left:20px;" @on-change="search"></DatePicker>
@@ -47,148 +47,62 @@ export default {
             rid:'',
             uid:'',
             queryDate:new Date(),
-            queryTime:[],
+            queryTime:['00:00:00','23:59:59'],
           },
           columns:[
               {
-                title: this.$t('home_echart_date'),
-                key: 'createTime',
-                width:150,
+                title: this.$t('user_table_modal1_userName_label'),
+                key: 'userName',
                 ellipsis: true,
                 render: (h, params) => {
                   return h('Tooltip', {
                     props: { placement: 'top-start' }
                   }, [
-                    params.row.createTime,
-                    h('span', { slot: 'content', style: { whiteSpace: 'normal', wordBreak: 'break-all' } }, params.row.createTime)
+                    params.row.userName,
+                    h('span', { slot: 'content', style: { whiteSpace: 'normal', wordBreak: 'break-all' } }, params.row.userName)
                   ])
                 }
               },
-              
               {
-                title: this.$t('turn_out'),
-                key: 'myName',
+                title: this.$t('startTime'),
+                key: 'startTime',
                 ellipsis: true,
                 render: (h, params) => {
                   return h('Tooltip', {
                     props: { placement: 'top-start' }
                   }, [
-                    params.row.myName,
-                    h('span', { slot: 'content', style: { whiteSpace: 'normal', wordBreak: 'break-all' } }, params.row.myName)
+                    params.row.startTime,
+                    h('span', { slot: 'content', style: { whiteSpace: 'normal', wordBreak: 'break-all' } }, params.row.startTime)
                   ])
                 }
               },
               {
-                title: this.$t('turn_in'),
-                key: 'objName',
+                title: this.$t('endTime'),
+                key: 'endTime',
                 ellipsis: true,
                 render: (h, params) => {
                   return h('Tooltip', {
                     props: { placement: 'top-start' }
                   }, [
-                    params.row.objName,
-                    h('span', { slot: 'content', style: { whiteSpace: 'normal', wordBreak: 'break-all' } }, params.row.objName)
+                    params.row.endTime,
+                    h('span', { slot: 'content', style: { whiteSpace: 'normal', wordBreak: 'break-all' } }, params.row.endTime)
                   ])
                 }
               },
               {
-                title: this.$t('alarmType'),
-                key: 'busiState',
+                title: this.$t('timeLength'),
+                key: 'timeLength',
                 ellipsis: true,
                 render: (h, params) => {
                   return h('Tooltip', {
                     props: { placement: 'top-start' }
                   }, [
-                    params.row.busiState,
-                    h('span', { slot: 'content', style: { whiteSpace: 'normal', wordBreak: 'break-all' } }, params.row.busiState)
+                    params.row.timeLength,
+                    h('span', { slot: 'content', style: { whiteSpace: 'normal', wordBreak: 'break-all' } }, params.row.timeLength)
                   ])
                 }
-              },
-              {
-                title: this.$t('beforeBalance'),
-                key: 'chgBefore',
-                ellipsis: true,
-                render: (h, params) => {
-                  return h('Tooltip', {
-                    props: { placement: 'top-start' }
-                  }, [
-                    params.row.chgBefore,
-                    h('span', { slot: 'content', style: { whiteSpace: 'normal', wordBreak: 'break-all' } }, params.row.chgBefore)
-                  ])
-                }
-              },
-              
-              {
-                title: this.$t('value'),
-                key: 'chgValue',
-                ellipsis: true,
-                render: (h, params) => {
-                  return h('Tooltip', {
-                    props: { placement: 'top-start' }
-                  }, [
-                    params.row.chgValue,
-                    h('span', { slot: 'content', style: { whiteSpace: 'normal', wordBreak: 'break-all' } }, params.row.chgValue)
-                  ])
-                }
-              },
-              {
-                title: this.$t('afterBalance'),
-                key: 'chgAfter',
-                ellipsis: true,
-                render: (h, params) => {
-                  return h('Tooltip', {
-                    props: { placement: 'top-start' }
-                  }, [
-                    params.row.chgAfter,
-                    h('span', { slot: 'content', style: { whiteSpace: 'normal', wordBreak: 'break-all' } }, params.row.chgAfter)
-                  ])
-                }
-              },
-              {
-                title: this.$t('operator'),
-                key: 'dealName',
-                ellipsis: true,
-                render: (h, params) => {
-                  return h('Tooltip', {
-                    props: { placement: 'top-start' }
-                  }, [
-                    params.row.dealName,
-                    h('span', { slot: 'content', style: { whiteSpace: 'normal', wordBreak: 'break-all' } }, params.row.dealName)
-                  ])
-                }
-              },
-              {
-                  title: this.$t('user_table_col_action'),
-                  key: 'action',
-                  align: 'center',
-                  width:150,
-                  fixed: 'right',
-                  render: (h, params) => {
-                      return h('div', [
-                          h('Button',
-                              {
-                                  on: {
-                                      click: () => {
-                                        this.remarkContent =  params.row.ext1 || ''
-                                        this.remarkDesc =  params.row.remark || ''
-                                        this.logId = params.row.logId
-                                        this.modal1 = true
-                                      }
-                                  },
-                                  style:{
-                                      // display:this.accessList.child_agent_recharge?'inline-block':'none',
-                                      cursor:'pointer',
-                                      color:'#2DB7F5'
-                                  },
-                                  props: {
-                                      type: 'text',
-                                      size: 'small'
-                                  } 
-                              },this.$t('remark')),
-                          
-                      ]);
-                  }
               }
+              
           ],
           tableData:[],
           pages:{
@@ -220,18 +134,29 @@ export default {
     },
     methods: {
         getRecords(){
+          let _this = this
           let param = {
-            rid:this.searchMes.rid,
-            uid:this.searchMes.uid,
-            queryDate:dateFormat(new Date(this.searchMes.queryDate),'yyyy-MM-dd')||'',
-            startTime:this.searchMes.queryTime[0]||'',
-            endTime:this.searchMes.queryTime[1]||'',
             page:this.pages.page,
             rows:this.pages.rows
           }
-          queryRoomMicRecord(param)
+          let data = {
+            rid:this.searchMes.rid,
+            uid:this.searchMes.uid,
+            queryDate:dateFormat(new Date(this.searchMes.queryDate),'yyyy-MM-dd')||'',
+            startTime:dateFormat(new Date(this.searchMes.queryDate),'yyyy-MM-dd')+' '+this.searchMes.queryTime[0]||'',
+            endTime:dateFormat(new Date(this.searchMes.queryDate),'yyyy-MM-dd')+' '+this.searchMes.queryTime[1]||''
+          }
+          queryRoomMicRecord(param,data)
           .then(res=>{
-            console.log(res)
+            if(res.data.code==0){
+              res.data.data.forEach(item=>{
+                item.timeLength = (item.endTime-item.startTime)/1000+' s'
+                item.startTime = dateFormat(new Date(item.startTime),'yyyy-MM-dd hh:mm:ss')
+                item.endTime = dateFormat(new Date(item.endTime),'yyyy-MM-dd hh:mm:ss')
+              })
+              _this.tableData = res.data.data
+            }
+            
           })
         },
         search(){

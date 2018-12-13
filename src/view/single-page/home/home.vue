@@ -17,7 +17,7 @@
                             <div class="home-title-avatar">
                               <Avatar :src="avatorPath" style="background: #619fe7;margin-left: 10px;"></Avatar>  
                             </div>
-                            <div  v-if="logoText" class="home-title-mes">
+                            <div class="home-title-mes">
                                 <h2><span style="font-weight:normal">{{$t('home_welcome')}}</span> {{logoText}}</h2>
                                 <p>{{userName}}</p>
                             </div>
@@ -124,8 +124,7 @@ export default {
             showAddNewTodo: false,
             newToDoItemValue: '',
             active:true,
-            logoText:this.$store.state.user.userPartyCompany.companyName,
-            userName:this.$store.state.user.userObj.userName,
+            
             channelList:[],
             channel_role:this.$store.state.app.channel_role
         };
@@ -133,6 +132,16 @@ export default {
     computed: {
         avatorPath () {
             return localStorage.avatorImgPath;
+        },
+        logoText () {
+            if(this.$store.state.user.userOrg.parentId!=0){
+                return this.$store.state.user.userPartyCompany.companyName+"【"+this.$store.state.user.userOrg.orgName+"】"
+            }else{
+                return this.$store.state.user.userPartyCompany.companyName
+            }
+        },
+        userName () {
+            return this.$store.state.user.userObj.userName;
         }
     },
     mounted:function(){

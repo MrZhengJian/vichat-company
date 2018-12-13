@@ -1,4 +1,7 @@
 export default {
+  timeLength: '时长',
+  startTime: '开始时间',
+  endTime: '结束时间',
   select_user: '请选择用户',
   select_group: '请选择频道',
   select_time: '请选择时间',

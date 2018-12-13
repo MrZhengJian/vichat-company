@@ -1,4 +1,7 @@
 export default {
+  timeLength: 'Length',
+  startTime: 'Start',
+  endTime: 'End',
   select_user: 'Please choose the user',
   select_group: 'Please choose the group',
   select_time: 'Please choose the time',

@@ -34,21 +34,21 @@ module.exports = {
       .set('_c', resolve('src/components'))
       .set('_conf', resolve('config'))
   },
-  
+
   // 打包时不生成.map文件
   productionSourceMap: false,
   // 这里写你调用接口的基础路径，来解决跨域，如果设置了代理，那你本地开发环境的axios的baseUrl要写为 '' ，即空字符串
   devServer: {
     historyApiFallback: true,
-    port:8090,
+    port: 8090,
     hot: true,
     inline: true,
     stats: { colors: true },
-    proxy: {//192.168.1.135:8080     47.104.186.84
+    proxy: {// 192.168.1.135:8080     47.104.186.84
       // 匹配代理的url
       '/vc': {
         // 目标服务器地址
-        'Access-Control-Allow-Origin':'*',
+        'Access-Control-Allow-Origin': '*',
         target: 'http://47.104.186.84',
         // 路径重写
         pathRewrite: {'^/vc': '/vc'},
@@ -56,7 +56,7 @@ module.exports = {
       },
       '/vcapi': {
         // 目标服务器地址
-        'Access-Control-Allow-Origin':'*',
+        'Access-Control-Allow-Origin': '*',
         target: 'http://47.104.186.84',
         // 路径重写
         pathRewrite: {'^/vcapi': '/vcapi'},
