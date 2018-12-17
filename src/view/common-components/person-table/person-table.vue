@@ -8,7 +8,7 @@
 
 <template>
 	<div class="table">
-		<p class="btn-group">
+		<p ref='btnGroup' class="btn-group">
             <!-- <Button type="primary" v-if="accessList.user_export" @click="exportData">{{$t('user_table_btn_export')}}</Button> -->
             <Dropdown style="float:right" trigger="click" @on-click="exportData">
                 <Button type="primary">
@@ -33,7 +33,7 @@
             </Select>
         </p>
 		<div class="table-main">
-            <Table ref="table" stripe @on-selection-change="tableSelection" :columns="columns" :data="tableData"></Table>
+            <Table ref="table" :row-class-name="rowClassName" @on-selection-change="tableSelection" :columns="columns" :data="tableData"></Table>
         </div>
 		<div class="page">
 	        <div style="float: right;">
@@ -211,6 +211,34 @@
                 </Button>
             </div>
         </Modal>
+        <!-- 停用提示 -->
+        <Modal :title="disable_confirm_title" v-model="modal13">
+            <p style="margin:20px 0;text-align:center;font-size:20px">
+                {{$t('disable_confirm_content')}}
+            </p>
+            <div slot="footer">
+                <Button type="default" size="large" @click="modal13=false">
+                    {{$t('cancel')}}
+                </Button>
+                <Button type="primary" size="large" @click="disableConfirm">
+                    {{$t('ok')}}
+                </Button>
+            </div>
+        </Modal>
+        <!-- 启用提示 -->
+        <Modal :title="enble_confirm_title" v-model="modal14">
+            <p style="margin:20px 0;text-align:center;font-size:20px">
+                {{$t('Enable_confirm_content')}}
+            </p>
+            <div slot="footer">
+                <Button type="default" size="large" @click="modal14=false">
+                    {{$t('cancel')}}
+                </Button>
+                <Button type="primary" size="large" @click="enbleConfirm">
+                    {{$t('ok')}}
+                </Button>
+            </div>
+        </Modal>
         <!-- 角色分配 -->
         <Modal :title="role_assign_modal_title" v-model="modal8" >
             <Form :model="role_assign" :label-width="100">
@@ -290,7 +318,7 @@ import uploadExcel from '@/view/excel/upload-excel'
 import orgTree from '@/view/common-components/org-tree/table-tree'
 import expandRow from './table-expend'
 import {dateFormat} from '@/libs/tools'
-import { saveEdposUser, deleteEdposUser, chgEdposUserOrg, chgUserPassword, imsPush, loadSysStaticData, batchDeleteUser,batchUpdateUserRole,batchUpdateUserExpiredDate,getSecRoleByUid,batchCheckUsers,batchSaveUserBasic,queryEdposUsers} from '@/api/user-manage'
+import { saveEdposUser, deleteEdposUser, chgEdposUserOrg, chgUserPassword, imsPush, loadSysStaticData, batchDeleteUser,batchUpdateUserRole,batchUpdateUserExpiredDate,getSecRoleByUid,batchCheckUsers,batchSaveUserBasic,queryEdposUsers,stopUser,startUser} from '@/api/user-manage'
 import {queryPrisonSecRole} from '@/api/role'
 export default {
   props: {
@@ -320,7 +348,7 @@ export default {
     
   },
   // mounted:function(){
-  //   console.log(this.accessList)
+  //   console.log(this.$refs.btnGroup.offsetWidth)
   // },
   data () {
     const validateAccount = (rule, value, callback) => {
@@ -441,6 +469,11 @@ export default {
       modal10: false, // 续约确认
       modal11: false, // 批量导入
       modal12: false, // 批量导入结果
+      modal13:false,
+      modal14:false,
+      disable_confirm_title:this.$t('disable_confirm_title'),
+      enble_confirm_title:this.$t('Enable_confirm_title'),
+      stopUid:'',
       columns: [
             {
               type: 'selection',
@@ -528,6 +561,22 @@ export default {
               }
             },
             {
+              title: this.$t('state'),
+              align:"center",
+              render: (h, params) => {
+                let _this = this
+                return h('div', [
+                  h('Icon',{
+                        props: {
+                            type:params.row.state==9?"md-close-circle":"md-play",
+                            color:params.row.state==9?'#ed4014':'#19be6b',
+                            disabled:(this.$store.state.user.record!=1)
+                        }  
+                    })
+                ])
+              }
+            },
+            {
               title: this.$t('user_table_col_expiredDate'),
               key: 'expiredDate',
               render: (h, params) => {
@@ -536,7 +585,7 @@ export default {
                         placement: 'top-start',
                     },
                     style:{
-                        color:params.row.isExpried==0?'#dcdee2':(params.row.isExpried==2?'#19be6b':'#ed4014')
+                        color:params.row.isExpried==0 || params.row.state==9?'#ccc':(params.row.isExpried==2?'#19be6b':'#ed4014')
                     } 
 
                 }, [
@@ -562,13 +611,14 @@ export default {
                       },
                       style: {
                         display: this.accessList.user_edit?'inline-block':'none',
-                        color: '#2DB7F5',
+                        color: params.row.state==9?'#ccc':'#2DB7F5',
                         marginRight: '5px',
                         cursor: 'pointer'
                       },
                       props: {
                         type: 'text',
-                        size: 'small'
+                        size: 'small',
+                        disabled:params.row.state==9?true:false
                       }
                     }, this.$t('user_table_col_edit')),
                   h('Button',
@@ -582,11 +632,12 @@ export default {
                         display: this.accessList.user_pwd?'inline-block':'none',
                         cursor: 'pointer',
                         marginRight: '5px',
-                        color: '#2DB7F5'
+                        color: params.row.state==9?'#ccc':'#2DB7F5'
                       },
                       props: {
                         type: 'text',
-                        size: 'small'
+                        size: 'small',
+                        disabled:params.row.state==9?true:false
                       }
                     }, this.$t('user_table_col_pwd')),
                   h('Button',
@@ -605,13 +656,12 @@ export default {
                         display: this.accessList.user_location?'inline-block':'none',
                         cursor: 'pointer',
                         marginRight: '5px',
-                        // color: (this.personData[params.index].userType!='1'?'#ccc':'#2DB7F5')
-                        color: '#2DB7F5'
+                        color: params.row.state==9?'#ccc':'#2DB7F5'
                       },
                       props: {
                         type: 'text',
                         size: 'small',
-                        // disabled:(this.personData[params.index].userType!='1'?true:false)
+                        disabled:params.row.state==9?true:false
                       }
                     }, this.$t('user_table_btn_location')),
                   h('Button',
@@ -625,33 +675,69 @@ export default {
                         display: this.accessList.user_role?'inline-block':'none',
                         cursor: 'pointer',
                         marginRight: '5px',
-                        color: (this.personData[params.index].userType!='2')?'#ccc':'#2DB7F5'
+                        color: (this.personData[params.index].userType!='2' || params.row.state==9)?'#ccc':'#2DB7F5'
                       },
                       props: {
                         type: 'text',
                         size: 'small',
-                        disabled:(this.personData[params.index].userType!='2')?true:false
+                        disabled:(this.personData[params.index].userType!='2' || params.row.state==9)?true:false
                       }
                     }, this.$t('user_table_col_role_assign')),
                   h('Button',
                     {
                       on: {
                         click: () => {
-                          this.modal7 = true
-                          this.DeleteIndex = params.index
+                          this.modal13 = true
+                          this.stopUid = params.row.uid
                         }
                       },
                       style: {
-                        display: this.accessList.user_del?'inline-block':'none',
-                        color: (this.personData[params.index].userType=='1'?'#ccc':'#F25E43'),
+                        display: this.accessList.user_del&&params.row.state!=9?'inline-block':'none',
+                        color: (this.personData[params.index].userType=='1'|| params.row.state==9)?'#ccc':'#F25E43',
                         cursor: 'pointer'
                       },
                       props: {
                         type: 'text',
                         size: 'small',
-                        disabled:(this.personData[params.index].userType=='1'?true:false)
+                        disabled:(this.personData[params.index].userType=='1'|| params.row.state==9)?true:false
                       }
-                    }, this.$t('user_table_col_delete'))
+                    }, this.$t('disable')),
+                  h('Button',
+                    {
+                      on: {
+                        click: () => {
+                          this.modal14 = true
+                          this.stopUid = params.row.uid
+                        }
+                      },
+                      style: {
+                        display: this.accessList.user_del&&params.row.state==9?'inline-block':'none',
+                        color: '#19be6b',
+                        cursor: 'pointer'
+                      },
+                      props: {
+                        type: 'text',
+                        size: 'small'
+                      }
+                    }, this.$t('Enable')),
+                  // h('Button',
+                  //   {
+                  //     on: {
+                  //       click: () => {
+                          
+                  //       }
+                  //     },
+                  //     style: {
+                  //       display: this.accessList.user_del?'inline-block':'none',
+                  //       color: (this.personData[params.index].userType=='1'?'#ccc':'#F25E43'),
+                  //       cursor: 'pointer'
+                  //     },
+                  //     props: {
+                  //       type: 'text',
+                  //       size: 'small',
+                  //       disabled:(this.personData[params.index].userType=='1'?true:false)
+                  //     }
+                  //   }, this.$t('user_table_col_delete'))
                 ])
               }
             }
@@ -1052,6 +1138,28 @@ export default {
       })
       
     },
+    disableConfirm(){
+      let _this = this
+      stopUser({uid:this.stopUid})
+      .then(res=>{
+        if(res.data.code == 0){
+          _this.$Message.success(this.$t('disable_success'))
+          _this.$emit('search')
+          _this.modal13 = false
+        }
+      })
+    },
+    enbleConfirm(){
+      let _this = this
+      startUser({uid:this.stopUid})
+      .then(res=>{
+        if(res.data.code == 0){
+          _this.$Message.success(this.$t('Enable_success'))
+          _this.$emit('search')
+          _this.modal14 = false
+        }
+      })
+    },
     // 清空表单信息
     clearEmp () {
       this.empMes={
@@ -1252,6 +1360,12 @@ export default {
             this.tabName='name1'
         }
     },
+    rowClassName(row, index){
+      if(row.state==9){
+        return 'disableRow';
+      }
+      return '';
+    }
   },
   computed: {
     tableData: function () {
@@ -1330,7 +1444,6 @@ export default {
     user_table_modal4_locTime_label: function () {
       return this.$t('user_table_modal4_locTime_label')
     },
-
     modal5_title: function () {
       return this.$t('user_table_modal5_title')
     },

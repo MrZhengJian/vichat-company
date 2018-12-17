@@ -34,6 +34,22 @@ export const deleteEdposUser = (params) => {
   })
 }
 
+export const stopUser = (params) => {
+  return axios.request({
+    url: '/vcapi/stopUser',
+    method: 'get',
+    params
+  })
+}
+
+export const startUser = (params) => {
+  return axios.request({
+    url: '/vcapi/startUser',
+    method: 'get',
+    params
+  })
+}
+
 export const batchDeleteUser = (params) => {
   return axios.request({
     url: '/vcapi/batchDelUser',

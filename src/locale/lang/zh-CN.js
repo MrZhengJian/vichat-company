@@ -1,4 +1,12 @@
 export default {
+  Enable: '启用',
+  Enable_confirm_title: '启用确认',
+  Enable_confirm_content: '确认启用此账号？',
+  Enable_success: '启用成功',
+  disable: '停用',
+  disable_confirm_title: '停用确认',
+  disable_confirm_content: '确认停用此账号？',
+  disable_success: '停用成功',
   timeLength: '时长',
   startTime: '开始时间',
   endTime: '结束时间',

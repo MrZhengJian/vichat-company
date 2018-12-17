@@ -1,4 +1,12 @@
 export default {
+  Enable: 'Enable',
+  Enable_confirm_title: 'Enable confirmation',
+  Enable_confirm_content: 'Confirm to enble this account?',
+  Enable_success: 'Enable Success',
+  disable: 'Disable',
+  disable_confirm_title: 'Deactivate confirmation',
+  disable_confirm_content: 'Confirm to disable this account?',
+  disable_success: 'Disable success',
   timeLength: 'Length',
   startTime: 'Start',
   endTime: 'End',
