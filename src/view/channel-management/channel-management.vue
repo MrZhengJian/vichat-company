@@ -469,8 +469,8 @@ export default {
       this._getMes() 
     },
     jump (params) {
-      localStorage.setItem('channelDetailsChannelId', params.row.rid)
-      localStorage.setItem('channelDetailsChannelName', params.row.name)
+      localStorage.setItem('company_channelDetailsChannelId', params.row.rid)
+      localStorage.setItem('company_channelDetailsChannelName', params.row.name)
       this.$router.push({
         name: 'channel_details'
       })

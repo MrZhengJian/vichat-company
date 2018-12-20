@@ -8,7 +8,7 @@ import i18n from '@/locale'
 
 Vue.use(Router)
 let router = new Router({
-  routes,
+  routes
 })
 const LOGIN_PAGE_NAME = 'login'
 router.beforeEach((to, from, next) => {
@@ -18,21 +18,21 @@ router.beforeEach((to, from, next) => {
   if (to.name === 'register') {
     // 未登陆且要跳转的页面是登录页
     next() // 跳转
-  }else if (to.name === 'login') {
+  } else if (to.name === 'login') {
     // 未登陆且要跳转的页面是登录页
     next() // 跳转
-  }else if (!token) {
+  } else if (!token) {
     // 未登录且要跳转的页面不是登录页
+    console.log(1)
     next({
       name: LOGIN_PAGE_NAME // 跳转到登录页
     })
-  }else {
+  } else {
     store.dispatch('getUserInfo').then(user => {
       // 拉取用户信息，通过用户权限和跳转的页面的name来判断是否有权限访问;access必须是一个数组，如：['super_admin'] ['super_admin', 'admin']
       if (canTurnTo(to.name, user.access, routes)) next() // 有权限，可访问
       else next({ replace: true, name: 'error_401' }) // 无权限，重定向到401页面
     })
-   
   }
 })
 

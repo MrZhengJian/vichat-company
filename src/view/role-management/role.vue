@@ -273,7 +273,8 @@ export default {
       let _this = this
       queryPrisonSecRole({
         page:this.pages.page,
-        limit:this.pages.rows
+        limit:this.pages.rows,
+        roleName:this.searchText
       })
       .then(res=>{
         if(res.data.code==0){
@@ -335,20 +336,9 @@ export default {
     },
 
     _searchText(){
-      if(this.searchText==''){
-        this.tableData = this.saveTableData
-        return 
-      }
-      let temp=[]
-      for(let i=0,arr=this.saveTableData;i<arr.length;i++){
-        if( arr[i].roleName.indexOf(this.searchText)>=0 || 
-          arr[i].roleDesc.indexOf(this.searchText)>=0)
-        {
-          temp.push(this.saveTableData[i])
-        }
-      }
+      this.pages.page = 1
       this.$refs.pages.currentPage = 1
-      this.tableData = temp
+      this.getRoleList()
     },
     _addRole(n){
       let _this = this

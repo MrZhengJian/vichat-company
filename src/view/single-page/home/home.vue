@@ -1,5 +1,5 @@
 <script type="text/javascript">
-  /* eslint-disable */
+/* eslint-disable */
 </script>
 
 <style lang="less">
@@ -87,12 +87,13 @@
                     </div>
                 </Card>
             </Col>
-        </Row>   
+        </Row> 
     </div>
 </template>
 
 <script>
 import visiteVolume from './components/visiteVolume.vue';
+// import drawer from './components/drawer.vue';
 import Cookies from 'js-cookie';
 import { getCounts } from '@/api/home';
 import { queryChannels } from '@/api/channel'
@@ -126,10 +127,13 @@ export default {
             active:true,
             
             channelList:[],
-            channel_role:this.$store.state.app.channel_role
+            channel_role:this.$store.state.app.channel_role,
+
+            
         };
     },
     computed: {
+        
         avatorPath () {
             return localStorage.avatorImgPath;
         },
@@ -218,7 +222,7 @@ export default {
             }
           }
           return arr
-        },
+        }
         
     }
 };

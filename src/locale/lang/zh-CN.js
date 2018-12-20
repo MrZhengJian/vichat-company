@@ -1,4 +1,7 @@
 export default {
+  disabled_account_error: '不能操作已停用账号',
+  submit: '提交',
+  ownSpace: '个人信息',
   Enable: '启用',
   Enable_confirm_title: '启用确认',
   Enable_confirm_content: '确认启用此账号？',
@@ -518,5 +521,6 @@ export default {
   '0000100018': 'IMEI不能为空',
   '0000100012': 'ICCID已存在',
   '0000100013': 'IMEI已存在',
+  '00008000003': '账号不可用',
   'IE_alert': '如果网页无法正常显示，请使用极速模式或谷歌浏览器'
 }

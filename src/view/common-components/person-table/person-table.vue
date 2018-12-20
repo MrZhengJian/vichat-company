@@ -23,7 +23,7 @@
             </Dropdown>
             <!-- <Button type="primary" v-if="accessList.user_import" @click="batchImportModal">{{$t('user_table_btn_batchImport')}}</Button> -->
             <Button type="primary" v-if="accessList.user_location" @click="btnClick(4)">{{$t('user_table_btn_location')}}</Button>
-            <Button type="primary" v-if="accessList.user_del" @click="btnClick(3)">{{$t('user_table_btn_delete')}}</Button>
+            <!-- <Button type="primary" v-if="accessList.user_del" @click="btnClick(3)">{{$t('user_table_btn_delete')}}</Button> -->
             <Button type="primary" v-if="accessList.user_org" @click="btnClick(5)">{{$t('user_table_btn_org')}}</Button>
             <Button type="primary" v-if="accessList.user_role" @click="btnClick(8)">{{$t('user_table_col_role_assign')}}</Button>
             <!-- <Button type="primary" v-if="accessList.user_add" @click="openAddUser">{{$t('user_table_btn_add')}}</Button> -->
@@ -478,7 +478,7 @@ export default {
             {
               type: 'selection',
               width: 30,
-              align: 'center'
+              align: 'center',
             },
             {
               type: 'expand',
@@ -494,7 +494,6 @@ export default {
             },
             {
               title: this.$t('user_table_col_account'),
-              width: 150,
               key: 'terminal',
               ellipsis: true,
               render: (h, params) => {
@@ -693,13 +692,13 @@ export default {
                       },
                       style: {
                         display: this.accessList.user_del&&params.row.state!=9?'inline-block':'none',
-                        color: (this.personData[params.index].userType=='1'|| params.row.state==9)?'#ccc':'#F25E43',
+                        color: (this.personData[params.index].userType=='1'||this.personData[params.index].userType=='2'|| params.row.state==9)?'#ccc':'#F25E43',
                         cursor: 'pointer'
                       },
                       props: {
                         type: 'text',
                         size: 'small',
-                        disabled:(this.personData[params.index].userType=='1'|| params.row.state==9)?true:false
+                        disabled:(this.personData[params.index].userType=='1'||this.personData[params.index].userType=='2'|| params.row.state==9)?true:false
                       }
                     }, this.$t('disable')),
                   h('Button',
@@ -998,12 +997,22 @@ export default {
       this.modal7 = false
     },
     btnClick (modal) {
+      let x = false
+      this.selection.forEach(item=>{
+          if(item.state==9){
+            x=true
+            return
+          }
+      })
+      if(x){
+          this.$Message.warning(this.$t('disabled_account_error'))
+          return
+      }
 
       for(let i =0;i<this.selectionUid.length;i++){
         let _this = this
         let n = this.EnterpriseUid.indexOf(this.selectionUid[i])
         let m = this.terminalUserUid.indexOf(this.selectionUid[i])
-       
         if(modal == 3 && n>=0){
             this.$Message.warning(this.$t('user_table_enterprise_warning3'))
             return
@@ -1258,7 +1267,7 @@ export default {
     exportData1(data){
       this.$refs.table.exportCsv({
         filename: this.$t('user_table_information'),
-        columns: this.columns.filter((col, index) => ((index > 1 && index < 6) || index == 7)),
+        columns: this.columns.filter((col, index) => ((index > 1 && index < 6) || index == 8)),
         data: data
       })
     },

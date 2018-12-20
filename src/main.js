@@ -65,7 +65,6 @@ function isBrowser() {
     }
 }
 /* eslint-disable no-new */
-console.log(isBrowser())
 if(isBrowser() =='IE'){
 	alert(i18n.t('IE_alert'));
 }else{

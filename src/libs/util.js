@@ -11,6 +11,7 @@ export const setToken = (token) => {
 
 export const getToken = () => {
   const token = Cookies.get(TOKEN_KEY)
+  // console.log(token)
   if (token) return token
   else return false
 }
@@ -76,13 +77,13 @@ export const showTitle = (item, vm) => vm.$config.useI18n ? vm.$t(item.name) : (
  * @description 本地存储和获取标签导航列表
  */
 export const setTagNavListInLocalstorage = list => {
-  localStorage.tagNaveList = JSON.stringify(list)
+  sessionStorage.tagNaveList = JSON.stringify(list)
 }
 /**
  * @returns {Array} 其中的每个元素只包含路由原信息中的name, path, meta三项
  */
 export const getTagNavListFromLocalstorage = () => {
-  const list = localStorage.tagNaveList
+  const list = sessionStorage.tagNaveList
   return list ? JSON.parse(list) : []
 }
 
@@ -284,7 +285,7 @@ export const routeEqual = (route1, route2) => {
   const params2 = route2.params || {}
   const query1 = route1.query || {}
   const query2 = route2.query || {}
-  return (route1.name === route2.name)  && objEqual(query1, query2)
+  return (route1.name === route2.name) && objEqual(query1, query2)
 }
 
 /**

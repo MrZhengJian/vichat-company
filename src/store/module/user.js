@@ -1,4 +1,4 @@
-import { login, logout, getUserInfo,platForm } from '@/api/user'
+import { login, getUserInfo, platForm } from '@/api/user'
 import { setToken, getToken } from '@/libs/util'
 import { loadSysStaticData } from '@/api/user-manage'
 
@@ -9,12 +9,12 @@ export default {
     avatorImgPath: '',
     token: getToken(),
     access: '',
-    userObj:{},
-    userOrg:{},
-    funcObj:{},
-    userPartyCompany:{},
-    sysStaticData:{},
-    record:null
+    userObj: {},
+    userOrg: {},
+    funcObj: {},
+    userPartyCompany: {},
+    sysStaticData: {},
+    record: null
   },
   mutations: {
     setAvator (state, avatorPath) {
@@ -33,26 +33,26 @@ export default {
       state.token = token
       setToken(token)
     },
-    setUserObj(state,obj){
+    setUserObj (state, obj) {
       state.userObj = obj
     },
-    setFuncObj(state,arr){
-      let obj={}
-      for(let i=0;i<arr.length;i++){
+    setFuncObj (state, arr) {
+      let obj = {}
+      for (let i = 0; i < arr.length; i++) {
         obj[arr[i]] = true
       }
       state.funcObj = obj
     },
-    setUserOrg(state,obj){
+    setUserOrg (state, obj) {
       state.userOrg = obj
     },
-    setUserPartyCompany(state,obj){
+    setUserPartyCompany (state, obj) {
       state.userPartyCompany = obj
     },
-    setRecord(state,obj){
+    setRecord (state, obj) {
       state.record = obj
     },
-    setSysStaticData(state,obj){
+    setSysStaticData (state, obj) {
       state.sysStaticData = obj
     }
   },
@@ -66,14 +66,13 @@ export default {
           password,
           code
         }).then(res => {
-          if(res){
+          if (res) {
             const data = res.data
-            if(data.code==0){
+            if (data.code == 0) {
               commit('setToken', data.obj.access_token)
             }
             resolve(data)
           }
-          
         }).catch(err => {
           reject(err)
         })
@@ -100,8 +99,8 @@ export default {
       return new Promise((resolve, reject) => {
         getUserInfo(state.token).then(res => {
           const data = res.data
-          localStorage.setItem('company_account_uname',data.obj.user.userName)
-          localStorage.setItem('company_account_uid',data.obj.user.uid)
+          localStorage.setItem('company_account_uname', data.obj.user.userName)
+          localStorage.setItem('company_account_uid', data.obj.user.uid)
           commit('setUserObj', data.obj.user)
           commit('setUserOrg', data.obj.userOrg)
           commit('setUserPartyCompany', data.obj.userPartyCompany)
@@ -120,12 +119,12 @@ export default {
         }).catch(err => {
           reject(err)
         })
-        platForm().then(res=>{
-          for(let key in res.data.obj){
-            localStorage.setItem(key,res.data.obj[key])
+        platForm().then(res => {
+          for (let key in res.data.obj) {
+            localStorage.setItem(key, res.data.obj[key])
           }
         })
       })
-    },
+    }
   }
 }

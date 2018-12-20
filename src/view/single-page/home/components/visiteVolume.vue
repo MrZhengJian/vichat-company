@@ -116,10 +116,9 @@ export default {
       let _this = this
       queryEdposUsers()
         .then(function (res) {
-          if(res.data.code==0){
+          if (res.data.code == 0) {
             _this.users = res.data.data
           }
-          
         })
     },
     _getLogDetails () {
@@ -138,7 +137,7 @@ export default {
       }
       logDetails(param)
         .then(function (res) {
-          if(res.data.code==0){
+          if (res.data.code == 0) {
             _this.logDetailsList = []
             if (!res.data.rows) {
               // _this.$Message.warning(_this.$t('home_echart_nocontent'))
@@ -167,7 +166,6 @@ export default {
               _this.logDetailsList.push(obj)
             }
           }
-          
         })
     },
     getChartData (n) {
@@ -177,9 +175,11 @@ export default {
       chartData(url)
         .then(function (res) {
           // console.log(res)
-          if (res.data.code==0) {
+          if (res.data.code == 0) {
             if (!res.data.obj) {
-              // _this.$Message.warning(_this.$t('home_echart_nocontent'))
+              _this.chartXname = []
+              _this.chartXvalue = []
+              _this.drawChart()
               return
             }
             _this.chartList = res.data.obj
@@ -193,8 +193,8 @@ export default {
                 itemStyle: {normal: {color: '#5EA7F4'}}
               }
               _this.chartXvalue.push(obj)
-              _this.drawChart()
             }
+            _this.drawChart()
           }
         })
     },

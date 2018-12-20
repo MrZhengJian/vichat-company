@@ -1,4 +1,7 @@
 export default {
+  disabled_account_error: 'Cannot operate disabled account',
+  submit: 'Submit',
+  ownSpace: 'Own Infomation',
   Enable: 'Enable',
   Enable_confirm_title: 'Enable confirmation',
   Enable_confirm_content: 'Confirm to enble this account?',
@@ -43,7 +46,7 @@ export default {
   fileTypeErrMes: 'Not an EXCEL file, please select an EXCEL file with a .xlsx or .xls suffix.',
   fileReadErr: 'File read error',
   fileReadSuc: 'File read successfully',
-  ERRS: 'ERRS',
+  ERRS: 'Errors',
 
   remark: 'Remark',
   enterRemark: 'Please enter remarks',
@@ -515,6 +518,7 @@ export default {
   '0000100018': 'IMEI can not be empty',
   '0000100012': 'ICCID is exist',
   '0000100013': 'IMEI is exist',
+  '00008000003': 'Account not available',
   'IE_alert': 'If the page cannot be displayed properly, use extreme speed mode or Google browser.'
 
 }
