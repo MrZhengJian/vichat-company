@@ -26,7 +26,7 @@
             <!-- <Button type="primary" v-if="accessList.user_del" @click="btnClick(3)">{{$t('user_table_btn_delete')}}</Button> -->
             <Button type="primary" v-if="accessList.user_org" @click="btnClick(5)">{{$t('user_table_btn_org')}}</Button>
             <Button type="primary" v-if="accessList.user_role" @click="btnClick(8)">{{$t('user_table_col_role_assign')}}</Button>
-            <!-- <Button type="primary" v-if="accessList.user_add" @click="openAddUser">{{$t('user_table_btn_add')}}</Button> -->
+            <Button type="primary" v-if="accessList.user_add" @click="openAddUser">{{$t('user_table_btn_add')}}</Button>
             <Input search enter-button clearable @on-search="searchBox(0)" v-model="searchTxt" :placeholder="user_table_search_placeholder" style="width: 250px;float:left"></Input>
             <Select v-model="searchUserType" style="width:200px;float:left;margin-left:20px;" clearable :placeholder="searchByUserType"  @on-change="searchBox(1)">
                 <Option v-for="item in employee_type_List"  :value="item.value" :key="item.value">{{ item.label }}</Option>
@@ -72,7 +72,7 @@
                 </div>
                 <org-tree v-show="show" v-on:changeOrg="addUserChangeOrg"></org-tree>
                 <FormItem :label="user_table_modal1_userType_label" prop="type">
-                    <Select v-model="empMes.userType" style="width:300px" >
+                    <Select disabled v-model="empMes.userType" style="width:300px" >
                         <Option v-for="item in employee_type_List" :disabled="(item.value==1)"  :value="item.value" :key="item.value">{{ item.label }}</Option>
                     </Select>
                 </FormItem>
@@ -108,7 +108,7 @@
                     <Input type="text" :maxlength='20' v-model="empMes.userName" style="width: 300px"></Input>
                 </FormItem>
                 <FormItem :label="user_table_modal1_userType_label" prop="type">
-                    <Select v-model="empMes.userType" :disabled="UTdisabled" style="width:300px">
+                    <Select v-model="empMes.userType" disabled style="width:300px">
                         <Option v-for="item in employee_type_List" :disabled="(item.value==1)" :value="item.value" :key="item.value">{{ item.label }}</Option>
                     </Select>
                 </FormItem>
@@ -430,7 +430,7 @@ export default {
             sex: 1,
             orgName: '',
             orgId: 0, // 添加和修改员工时表单数据
-            userType: '3',
+            userType: '2',
             expiredDate:'',
             userName:''
       },
@@ -1179,7 +1179,7 @@ export default {
           mobile:'',
           sex:1,
           orgId:0,
-          userType:'3',
+          userType:'2',
           expiredDate:'',
           terminal:''
       }
