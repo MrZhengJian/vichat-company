@@ -155,6 +155,7 @@ export default {
               item.endTime = dateFormat(new Date(item.endTime), 'yyyy-MM-dd hh:mm:ss')
             })
             _this.tableData = res.data.data
+            _this.pages.total = res.data.count
           }
         })
     },

@@ -1,4 +1,10 @@
 export default {
+  account: '账号',
+  allacounts: '(全部)',
+  pagenum: '(第',
+  pageaccount: '页)',
+  selectedaccount: '(勾选)',
+  chgPwdTitle: '修改密码',
   disabled_account_error: '不能操作已停用账号',
   submit: '提交',
   ownSpace: '个人信息',

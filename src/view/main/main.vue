@@ -37,11 +37,12 @@
     <Drawer
         :title="ownSpaceTitle"
         v-model="ownSpace"
-        width="480"
+        width="600"
         @on-visible-change=changeOwnSpace
         :styles="styles"
+        class="Drawer"
     >
-        <Form ref='formCustom' :model="formData" :rules="ruleCustom" :label-width="80">
+        <Form ref='formCustom' :model="formData" :rules="ruleCustom" :label-width="150">
             <Row :gutter="32">
                 <Col span="24">
                     <FormItem :label="account" label-position="top"  prop="terminal">
@@ -81,7 +82,7 @@
             </Row>
             
         </Form>
-        <div class="demo-drawer-footer" style="padding-left:80px;">
+        <div class="demo-drawer-footer" style="padding-left:150px;">
             <Button style="margin-right: 8px" @click="$store.commit('setOwnSpace',false)">{{$t('cancel')}}</Button>
             <Button type="primary" @click="sendModify">{{$t('submit')}}</Button>
         </div>
@@ -89,11 +90,12 @@
     <Drawer
         :title="chgPwdTitle"
         v-model="chgPwd"
-        width="480"
+        width="600"
         @on-visible-change=changeChgPwd
         :styles="styles"
+        class="Drawer"
     >
-        <Form ref='pwdFormData' :model="pwdFormData" :rules="ruleCustom" :label-width="80">
+        <Form ref='pwdFormData' :model="pwdFormData" :rules="ruleCustom" :label-width="150">
             <Row :gutter="32">
                 <Col span="24">
                     <FormItem :label="pwd" prop="password">
@@ -108,7 +110,7 @@
             </Row>
             
         </Form>
-        <div class="demo-drawer-footer" style="padding-left:80px;">
+        <div class="demo-drawer-footer" style="padding-left:150px;">
             <Button style="margin-right: 8px" @click="$store.commit('setChgPwd',false)">{{$t('cancel')}}</Button>
             <Button type="primary" @click="sendNewpwd">{{$t('submit')}}</Button>
         </div>
@@ -238,7 +240,7 @@ export default {
       account:this.$t('user_table_modal1_account_label'),
       usertype:this.$t('user_table_modal1_userType_label'),
       sex:this.$t('user_table_modal1_gender_label'),
-      chgPwdTitle:this.$t('user_table_modal6_title'),
+      chgPwdTitle:this.$t('chgPwdTitle'),
       pwd:this.$t('user_table_modal6_newPwd_label'),
       repeat:this.$t('repeat'),
       

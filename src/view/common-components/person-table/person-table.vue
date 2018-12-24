@@ -11,7 +11,7 @@
 		<p ref='btnGroup' class="btn-group">
             <!-- <Button type="primary" v-if="accessList.user_export" @click="exportData">{{$t('user_table_btn_export')}}</Button> -->
             <Dropdown style="float:right" trigger="click" @on-click="exportData">
-                <Button type="primary">
+                <Button type="primary" style="width:80px;">
                     {{$t('user_table_btn_export')}}
                     <Icon type="ios-arrow-down"></Icon>
                 </Button>
@@ -437,6 +437,10 @@ export default {
       locMes: { // 定位信息
         loc: 0,
         locTime: 60
+      },
+      pages:{
+        page:1,
+        rows:10,
       },
       ruleCustom: {
             terminal: [
@@ -1190,9 +1194,11 @@ export default {
         this.uploadTableDataContent = data
     },
     changePage (current) {
+      this.pages.page = current
       this.$emit('search', ['page', current])
     },
     changePageSize (pageSize) {
+      this.pages.rows = pageSize
       this.$emit('search', ['limit', pageSize])
     },
     searchBox (n) {
@@ -1253,20 +1259,21 @@ export default {
             queryEdposUsers()
             .then(res=>{
                 data = _this.turnData(res.data.data)
-                _this.exportData1(data)
+                _this.exportData1(data,_this.$t('allacounts'))
             })
         }else if(n=='2'){
             data = this.tableData
-            this.exportData1(data)
+            let str = _this.$t('pagenum')+_this.pages.page+_this.$t('pageaccount')
+            this.exportData1(data,str)
         }else if(n=='3'){
             data = this.selection
-            this.exportData1(data)
+            this.exportData1(data,_this.$t('selectedaccount'))
         }
       
     },
-    exportData1(data){
+    exportData1(data,name){
       this.$refs.table.exportCsv({
-        filename: this.$t('user_table_information'),
+        filename: this.$t('account')+name,
         columns: this.columns.filter((col, index) => ((index > 1 && index < 6) || index == 8)),
         data: data
       })

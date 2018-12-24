@@ -49,7 +49,7 @@ module.exports = {
       '/vc': {
         // 目标服务器地址
         'Access-Control-Allow-Origin': '*',
-        target: 'http://47.104.186.84',
+        target: 'http://47.104.186.84:6100',
         // 路径重写
         pathRewrite: {'^/vc': '/vc'},
         changeOrigin: true
@@ -57,7 +57,7 @@ module.exports = {
       '/vcapi': {
         // 目标服务器地址
         'Access-Control-Allow-Origin': '*',
-        target: 'http://47.104.186.84',
+        target: 'http://47.104.186.84:6100',
         // 路径重写
         pathRewrite: {'^/vcapi': '/vcapi'},
         changeOrigin: true
