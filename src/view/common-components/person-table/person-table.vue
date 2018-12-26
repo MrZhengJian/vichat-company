@@ -1203,6 +1203,7 @@ export default {
     },
     searchBox (n) {
       this.$refs.pages.currentPage=1
+      this.pages.page = 1
       if(n==0){
         this.$emit('search', ['userName', this.searchTxt])
       }else if(n==1){
