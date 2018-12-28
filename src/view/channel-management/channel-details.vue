@@ -72,13 +72,13 @@
                     </div>
                 </div>
                 <org-tree v-show="showTree" v-on:changeOrg="changeOrg"></org-tree>
-
+ 
                 <div class='selectOrg' >
                     <span class="selectOrg-title">
                         {{$t('priority')}}
                     </span>
                     <div class="selectOrg-content">
-                        <Select v-model='priority'>
+                        <Select  v-model='priority'>
                             <Option :disabled="item.value==10" v-for="item in priorityList" :value="item.value" :key="item.value">{{ item.desc }}</Option>
                         </Select>
 
@@ -159,7 +159,7 @@
                     </Select>
                 </FormItem>
                 <FormItem :label="priorityLabel" >
-                    <Select v-model="empMes.priority" style="width:300px" >
+                    <Select :disabled='empMes.priority==10' v-model="empMes.priority" style="width:300px" >
                         <Option v-for="item in priorityList" :disabled='item.value==10&&empMes.adminGrade!=10' :value="item.value" :key="item.value">{{ item.desc }}</Option>
                     </Select>
                 </FormItem>
