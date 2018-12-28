@@ -2,7 +2,7 @@
   @import "./common.less";
 </style>
 <template>
-  <div class="uploadExcel">
+  <div class="uploadExcel" style="min-height:100px;">
       <Row>
         <Upload action="" :before-upload="handleBeforeUpload" accept=".xls, .xlsx">
           <Button icon="ios-cloud-upload-outline" :loading="uploadLoading" @click="handleUploadFile">{{$t('upload')}}</Button>
