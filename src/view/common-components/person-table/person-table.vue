@@ -1026,6 +1026,9 @@ export default {
         }else if(modal == 8 && m>=0){
             this.$Message.warning(this.$t('user_table_enterprise_warning81'))
             return
+        }else if(modal == 5 && n>=0){
+            this.$Message.warning(this.$t('user_table_enterprise_warning5'))
+            return
         }
       }
 

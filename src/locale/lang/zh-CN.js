@@ -243,7 +243,7 @@ export default {
   user_table_enterprise_warning3: '不能删除企业用户',
   user_table_enterprise_warning8: '不能修改企业用户角色',
   user_table_enterprise_warning81: '不能修改终端用户角色',
-
+  user_table_enterprise_warning5: '不能修改企业用户组织',
   user_table_modal1_title: '添加员工',
   user_table_modal1_account_label: '账号',
   user_table_modal1_account_placeholder: '请输入账号',

@@ -238,6 +238,7 @@ export default {
   user_table_enterprise_warning3: 'Enterprise users cannot be deleted',
   user_table_enterprise_warning8: 'Enterprise user roles cannot be modified',
   user_table_enterprise_warning81: 'Terminal user roles cannot be modified',
+  user_table_enterprise_warning5: 'Enterprise user organization cannot be modified',
 
   user_table_modal1_title: 'Add User',
   user_table_modal1_account_label: 'Account',
