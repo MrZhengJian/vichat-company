@@ -146,6 +146,37 @@ export default [
     ]
   },
   {
+    path: '/fence_management',
+    name: 'fence_management',
+    component: Main,
+    meta: {
+      icon: 'ios-warning',
+      title: i18n.t('fence_management'),
+    },
+    children: [
+      {
+        path: '/district_fence',
+        name: 'district_fence',
+        meta: {
+          title: i18n.t('district_fence'),
+          icon: 'ios-warning',
+          hideInMenu: false,
+        },
+        component: () => import('@/view/fence-management/district-fence/district-fence.vue')
+      },
+      {
+        path: '/fence_alarm',
+        name: 'fence_alarm',
+        meta: {
+          title: i18n.t('fence_alarm'),
+          icon: 'ios-warning',
+          hideInMenu: false,
+        },
+        component: () => import('@/view/fence-management/fence-alarm/fence-alarm.vue')
+      },
+    ]
+  },
+  {
     path: '/_call_records',
     name: '_call_records',
     component: Main,

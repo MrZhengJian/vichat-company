@@ -6,6 +6,7 @@ import App from './App'
 import router from './router'
 import store from './store'
 import iView from 'iview'
+import VueAMap from 'vue-amap';
 import i18n from '@/locale'
 import config from '@/config'
 import importDirective from '@/directive'
@@ -16,10 +17,29 @@ import '@/assets/icons/iconfont.css'
 // import '@/mock'
 // 实际打包时应该不引入mock
 
+// 引入vue-amap
+
+Vue.use(VueAMap);
+ 
+// 初始化vue-amap
+VueAMap.initAMapApiLoader({
+  // 高德的key
+  key: '9e7f19d56c6fb77066ce29fcf7641d08',
+  // 插件集合
+  plugin: ['AMap.Autocomplete', 'AMap.PlaceSearch', 'AMap.Scale', 'AMap.OverView', 'AMap.ToolBar', 'AMap.MapType', 'AMap.PolyEditor', 'AMap.CircleEditor'],
+  // 高德 sdk 版本，默认为 1.4.4
+  v: '1.4.4'
+});
+
+
 
 Vue.use(iView, {
   i18n: (key, value) => i18n.t(key, value)
 })
+
+
+
+
 Vue.config.productionTip = false
 /**
  * @description 全局注册应用配置
