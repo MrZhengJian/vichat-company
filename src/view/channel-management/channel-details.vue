@@ -41,6 +41,7 @@
             <div class="detailsPage">
                 <div style="float: right;">
                     <Page
+                        ref="pages"
                         @on-change="changePage"
                         @on-page-size-change="changePageSize"
                         :total=pages.total
@@ -112,7 +113,7 @@
                 <Button type="default" @click="modal1=false">
                     {{$t('cancel')}}
                 </Button>
-                <Button type="primary" :disabled="refreshDisabled" @click="_getMes1">
+                <Button type="primary" :disabled="refreshDisabled" @click="refresh">
                     {{$t('channel_details_modal1_refresh')}}
                 </Button>
                 <Button type="primary" @click="_saveModify">
@@ -154,13 +155,13 @@
         <Modal :title="modal4_title" v-model="modal4">
             <Form :model="empMes" :label-width="120">
                 <FormItem :label="user_table_col_role" >
-                    <Select v-model="empMes.adminGrade" style="width:300px" >
+                    <Select v-model="empMes.adminGrade" :disabled='empMes.priority==10' style="width:300px" >
                         <Option v-for="item in adminGradeList" :value="item.value" :key="item.value">{{ item.desc }}</Option>
                     </Select>
                 </FormItem>
                 <FormItem :label="priorityLabel" >
                     <Select :disabled='empMes.priority==10' v-model="empMes.priority" style="width:300px" >
-                        <Option v-for="item in priorityList" :disabled='item.value==10&&empMes.adminGrade!=10' :value="item.value" :key="item.value">{{ item.desc }}</Option>
+                        <Option v-for="item in priorityList" :disabled='item.value==10' :value="item.value" :key="item.value">{{ item.desc }}</Option>
                     </Select>
                 </FormItem>
                 <FormItem :label="timelenLabel" style="width:300px">
@@ -537,6 +538,7 @@ export default {
       }
     },
     searchBox () {
+      this.$refs.pages.currentPage=1
       this.pages.page = 1
       this.getMes()
     },
@@ -558,6 +560,11 @@ export default {
       }
       queryRoomMembers(param)
         .then(function (res) {
+          if(res.data.data.length==0&&_this.pages.page>1){
+            _this.pages.page--
+            _this.getMes()
+          }
+          _this.selectionUid = []
           // 表格数据(应该在getTableData方法里分页获取)
           _this.personData = res.data.data
           _this.pages.total = _this.channelCount = res.data.count
@@ -591,6 +598,12 @@ export default {
           _this.refreshDisabled = false
           _this.showSpain = false
         })
+    },
+    refresh(){
+      this.orgName = ''
+      this.priority=2
+      this.timelen=120
+      this._getMes1()
     },
     _getMes1 () { // 左框(所有成员)
       let _this = this

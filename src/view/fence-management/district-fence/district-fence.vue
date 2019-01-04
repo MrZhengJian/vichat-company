@@ -55,13 +55,31 @@
           </div>           
           <div class="newfenceArea" v-if="step==1">
             <el-amap
-                vid="amap" :zoom="zoom" :amap-manager="amapManager" :center="center"
+                vid="amap" 
+                :zoom="zoom" 
+                :amap-manager="amapManager" 
+                :center="center" 
+                :plugin="plugin"
                 ref="map"
                 class="amap-demo"
+                
                 >
+                  <!-- <el-amap-polygon 
+                    ref="polygon" 
+                    :path="polygon.path" 
+                    :draggable="polygon.draggable" 
+                    :editable="polygon.editable" 
+                    :events="polygon.events"
+                    :strokeColor="polygon.strokeColor"
+                    :strokeWeight="polygon.strokeWeight"
+                    :fillColor="polygon.fillColor"
+                    :fillOpacity="polygon.fillOpacity"
 
+                  ></el-amap-polygon> -->
                 </el-amap-marker>
             </el-amap>
+            <Button type="primary" style="right:90px;" @click="drawPolygon">{{$t('finish')}}</Button>
+            <Button type="primary" @click="modal1=false">{{$t('finish')}}</Button>
           </div>           
           <div class="newfenceRules" v-if="step==2">
             2
@@ -87,6 +105,7 @@ import VueAMap from "vue-amap";   //在页面中引入高德地图
 let amapManager = new VueAMap.AMapManager();
 export default {
   data () {
+    let _this=this;
     return {
       spin: false,
       columns: [
@@ -161,13 +180,42 @@ export default {
         rows: 10,
         total: 0
       },
-      modal1:true,
+      modal1:false,
       step:0,
       zoom: 13,
-      center: [121.482257,31.226187],
+      center: [0,0],
+      plugin: [
+        {
+          pName:'Geolocation',//定位插件
+          showMarker:false,
+          events:{
+            init(o){
+              //定位成功 自动将marker和circle移到定位点
+              o.getCurrentPosition((status, result) => {
+                _this.center=[result.position.lng,result.position.lat]
+              });
+            }
+          }
+        }
+      ],
       amapManager: amapManager,
       map_ok:false,
-
+      polygon:{
+        draggable: true,
+        editable: true,
+        // path: [[121.5273285, 31.21915044], [121.5273285, 31.21515044], [121.5293285, 31.21515044] ,[121.5293285, 31.21915044]],
+        path: [[121.472257,31.236187], [121.492257,31.236187], [121.492257,31.216187] ,[121.472257,31.216187]],
+        strokeColor:'#2b85e4',
+        strokeWeight:2,
+        fillColor:'#2db7f5',
+        fillOpacity:0.5,
+        events: {
+          adjust: () => {
+            this.fenceMes.regcoords=this.$refs.polygon.$$getPath()
+            console.log(this.$refs.polygon.$$getPath())
+          }
+        }
+      },
       fenceName_placeholder:this.$t('fenceName_placeholder'),
       fenceName_placeholder1:this.$t('fenceName_placeholder1'),
       fenceName_placeholder2:this.$t('fenceName_placeholder2'),
@@ -182,6 +230,7 @@ export default {
 
   created: function () {
     this.queryFence()
+    // this.getLocation()
   },
   methods: {
     queryFence(){
@@ -228,6 +277,7 @@ export default {
         fenceType:'',
         regcoords:''
       },
+      this.polygon.path=[[121.472257,31.236187], [121.492257,31.236187], [121.492257,31.216187] ,[121.472257,31.216187]],
       this.modal1=true
     },
     changeStep(n){
@@ -250,7 +300,64 @@ export default {
       // }
 
       this.step+=n
-    }
+    },
+    drawPolygon(){
+         //在地图中添加MouseTool插件
+       mouseTool.polygon({
+        strokeColor: "#FF33FF", 
+        strokeOpacity: 1,
+        strokeWeight: 6,
+        strokeOpacity: 0.2,
+        fillColor: '#1791fc',
+        fillOpacity: 0.4,
+        // 线样式还支持 'dashed'
+        strokeStyle: "solid",
+        // strokeStyle是dashed时有效
+        // strokeDasharray: [30,10],
+      })
+    },
+    getLocation(){
+      let options={
+          enableHighAccuracy:true, 
+          maximumAge:1000
+      }
+      if(navigator.geolocation){
+          //浏览器支持geolocation
+          navigator.geolocation.getCurrentPosition(
+            (position)=>{
+              //返回用户位置
+              //经度
+              let longitude =position.coords.longitude;
+              //纬度
+              let latitude = position.coords.latitude;
+              console.log(longitude,latitude)
+            },
+            (error)=>{
+              switch(error.code){
+                  case 1:
+                  alert("位置服务被拒绝");
+                  break;
+
+                  case 2:
+                  alert("暂时获取不到位置信息");
+                  break;
+
+                  case 3:
+                  alert("获取信息超时");
+                  break;
+
+                  case 4:
+                  alert("未知错误");
+                  break;
+              }
+            },
+            options
+          );
+          
+      }else{
+          //浏览器不支持geolocation
+      }
+    },
 
   },
   computed: {
