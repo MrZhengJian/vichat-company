@@ -155,6 +155,16 @@ export default [
     },
     children: [
       {
+        path: '/new_fence',
+        name: 'new_fence',
+        meta: {
+          title: i18n.t('new_fence'),
+          icon: 'ios-warning',
+          hideInMenu: false,
+        },
+        component: () => import('@/view/fence-management/new-fence/new-fence.vue')
+      },
+      {
         path: '/district_fence',
         name: 'district_fence',
         meta: {

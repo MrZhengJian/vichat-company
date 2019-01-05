@@ -1,0 +1,210 @@
+
+.new_fence{
+	position: absolute;
+	top: 18px;right: 18px;left: 18px;bottom: 18px;
+	.content{
+		font-size: 16px;
+		position: absolute;
+		top: 80px;
+		bottom: 50px;
+		left: 0;right: 0;
+		&>div{
+			width: 100%;
+			height: 100%;
+			// text-align: center;
+			// line-height:400px;
+			overflow: hidden;
+		}
+		.newfenceName{
+			position: relative;
+			.nameContent{
+				font-size: 14px;
+				position: absolute;
+				top: 30%;
+				left: 50%;
+				transform:translate(-50%,-50%) !important;
+				animation:none;
+				transition: none;
+			} 
+			p{
+				margin: 0 auto;
+				text-align: center;
+				padding:15px;
+				span{
+					margin-right:10px;
+					width: 100px;
+					text-align: right;
+					height: 32PX;
+					line-height: 32px;
+					float: left
+				}
+				textarea{
+					font-size: 12px;
+					padding:7px;
+				}
+			}
+			
+		}
+		.newfenceArea{
+			position: relative;
+			.mapSearch{
+				position: absolute;
+				top: 10px;left: 10px;
+			}
+			.mapBtns{
+				position: absolute;
+				top: 10px;right: 10px;
+				z-index: 100;
+				.ivu-btn{
+					margin-left: 15px;
+				}
+			}
+		}
+		.newfenceRules{
+			position: relative;
+			.ruleContent{
+				width: 100%;
+				height: 100%;
+				border-top:none;
+				&>div{
+					width: 100%;
+					height: 100%;
+					padding:16px;
+				}
+				.time_rule{
+					width: 100%;
+					height: 100%;
+					display: flex;
+					overflow-y:auto; 
+					.time_rule_left{
+						width: 600px;
+						height: 100%;
+						margin:0 auto;
+						
+							&>p{
+								width: 400px;
+								margin: 0 auto;
+								padding:15px;
+								&>span{
+									margin-right:10px;
+									height: 32PX;
+									line-height: 32px;
+									float: left;
+								}
+								.ivu-radio-group{
+									height: 32px;
+									line-height: 31px;
+									.ivu-radio-group-item{
+										margin-right: 20px;
+									}
+								}
+							}
+							.timeResult{
+								padding-left:173px;
+								.item{
+									position: relative;
+									display:inline-block;
+									width: 120px;
+									height: 32px;
+									line-height: 32px;
+									border-radius: 4px;
+									padding-left:13px;
+									background: #2d8cf0;
+									color: #fff;
+									margin-right: 10px;
+									margin-bottom: 10px;
+									cursor: pointer;
+									.ivu-icon{
+										// display: none;
+										position: absolute;
+										top:10px;
+										right:10px;
+									}
+									&:hover{
+										background: #5cadff;
+									}
+								}
+							}
+							.typeResult{
+								padding-left:173px;
+								.weekItem{
+									span{
+										font-size:12px; 
+										display: inline-block;
+										padding:7px 12px;
+										border:1px solid #ddd;
+										border-radius: 4px;
+										margin-right:10px;
+										margin-bottom:10px;
+										cursor: pointer;
+										&:hover{
+											border-color:#5cadff;
+											background: #5cadff;
+											color:#fff	
+										}
+										&.active{
+											border-color:#2d8cf0;
+											background: #2d8cf0;
+											color:#fff	
+										}
+									}
+								}
+							}
+						
+					}
+				}
+			}
+		}
+		.newfenceUser{
+			width: 800px;
+			margin:0 auto;
+			.tree{
+				position: relative;
+				padding:0 22px;
+				
+				.selectOrg{
+					position: relative;
+					margin-bottom: 10px;
+					display: flex;			
+				}
+				.selectOrg .selectOrg-title,.selectOrg-content{
+					float:none;
+				}
+				.selectOrg .selectOrg-title{
+					width: 140px;
+					display:inline-block;
+					text-align: right;
+					vertical-align: middle;
+					font-size: 12px;
+					color: #495060;
+					line-height: 1;
+					padding: 10px 12px 10px 0;
+					box-sizing: border-box;
+				}
+				.ivu-tree{
+					width: 300px;
+					min-height: 18px;
+					position: absolute;
+					top: 36px;
+					left: 163px;
+					z-index: 100;
+					background: #fff;
+					border:1px solid #57A3F3;
+					padding-left:5px;
+					border-radius: 4px;
+					overflow: auto;
+					transition: all 0.5s linear;
+				}
+				
+			}
+		}
+	}
+	.footer{
+		position: absolute;
+		bottom: 0;
+		right: 0;
+		.ivu-btn{
+			margin-left: 15px;
+		}
+	}
+}

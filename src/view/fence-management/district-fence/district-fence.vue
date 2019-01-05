@@ -27,73 +27,7 @@
                 ></Page>
           </div>
       </div>
-      <Modal
-        :title="newFence"
-        v-model="modal1"
-        class='new_fence'
-        :width='800'
-      >
-        <div class="steps" style="padding-left:10%;margin:10px 0;">
-          <Steps :current="step" size="small">
-            <Step :title="newfenceName"></Step>
-            <Step :title="newfenceArea"></Step>
-            <Step :title="newfenceRules"></Step>
-            <Step :title="newfenceFinish"></Step>
-          </Steps>
-        </div>
-        <Divider />
-        <div class="content">
-          <div class="newfenceName" v-if="step==0">
-            <p>
-              <span>{{this.$t('name')}}：</span>
-              <Input clearable v-model="fenceMes.fenceName" :max="100" :placeholder="fenceName_placeholder1" style="width:300px;"></Input>
-            </p>
-            <p>
-              <span>{{this.$t('desc')}}：</span>
-              <Input type='textarea' :autosize="{'minRows': 3,'maxRows': 5}" clearable v-model="fenceMes.fenceDesc" :max="100" :placeholder="fenceName_placeholder2" style="width:300px;"></Input>
-            </p>
-          </div>           
-          <div class="newfenceArea" v-if="step==1">
-            <el-amap
-                vid="amap" 
-                :zoom="zoom" 
-                :amap-manager="amapManager" 
-                :center="center" 
-                :plugin="plugin"
-                ref="map"
-                class="amap-demo"
-                
-                >
-                  <!-- <el-amap-polygon 
-                    ref="polygon" 
-                    :path="polygon.path" 
-                    :draggable="polygon.draggable" 
-                    :editable="polygon.editable" 
-                    :events="polygon.events"
-                    :strokeColor="polygon.strokeColor"
-                    :strokeWeight="polygon.strokeWeight"
-                    :fillColor="polygon.fillColor"
-                    :fillOpacity="polygon.fillOpacity"
-
-                  ></el-amap-polygon> -->
-                </el-amap-marker>
-            </el-amap>
-            <Button type="primary" style="right:90px;" @click="drawPolygon">{{$t('finish')}}</Button>
-            <Button type="primary" @click="modal1=false">{{$t('finish')}}</Button>
-          </div>           
-          <div class="newfenceRules" v-if="step==2">
-            2
-          </div>           
-          <div class="newfenceFinish" v-if="step==3">
-            3
-          </div>           
-        </div>
-        <div slot="footer">
-            <Button type="default" v-if="step!=0&&step!=3" @click="changeStep(-1)">{{$t('prev')}}</Button>
-            <Button type="primary" v-if="step!=3" @click="changeStep(1)">{{$t('next')}}</Button>
-            <Button type="primary" v-if="step==3" @click="modal1=false">{{$t('finish')}}</Button>
-        </div>
-      </Modal>
+     
       </div>
       
 </template>

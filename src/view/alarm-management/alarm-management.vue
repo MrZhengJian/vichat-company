@@ -43,7 +43,7 @@
 				    :center="mapCenter"
 				    :zoom="15"
 				    style="width: 100%; height: 400px"
-				>
+						>
 				    <gmap-marker
 				      :position="marker.position"
 				      :clickable="true"
@@ -93,15 +93,7 @@
 import { dateFormat } from '@/libs/tools.js'
 import { queryAlarm,finishAlarm,saveDealResult } from '@/api/alarm'
 
-import * as VueGoogleMaps from 'vue2-google-maps';
-import Vue from 'vue';
-Vue.use(VueGoogleMaps, {
-  load: {
-    key: 'AIzaSyB5DfBgoFxu_8MPchRt79ehKzo8ocG-HIA',
-    v: '0.10.2',
-    libraries: 'places'
-  }
-})
+
 
 export default {
 	components: {
@@ -120,10 +112,10 @@ export default {
 		        'rows': 10,
 		        'page': 1
 		    },
-			mapCenter:{lat:31.239704, lng: 121.478341},
+			mapCenter:{lng: 121.478341,lat:31.239704 },
 			marker: {
-	          position: {lat:31.239704, lng: 121.478341}
-	        },
+				position: {lng: 121.478341,lat:31.239704 },
+			},
 			partyId:this.$store.state.user.userObj.partyId,
 			columns:[
 				{
@@ -406,8 +398,8 @@ export default {
 			for(let i=0;i<data.length;i++){
 				// console.log(data[i].longitude,data[i].latitude)
 				if(data[i].longitude&&data[i].latitude){
-					y = parseFloat(data[i].longitude).toFixed(6)
-					x = parseFloat(data[i].latitude).toFixed(6)
+					x = parseFloat(data[i].longitude).toFixed(6)
+					y = parseFloat(data[i].latitude).toFixed(6)
 					data[i].hasCoordinate = true
 				}else{
 					x = y = "-"

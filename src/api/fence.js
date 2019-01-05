@@ -9,3 +9,12 @@ export const queryFence = (params,data) => {
     data
   })
 }
+
+export const queryFenceUser = (params,data) => {
+  return axios.request({
+    url: '/vcapi/fence/queryFenceUser',
+    method: 'post',
+    params,
+    data
+  })
+}

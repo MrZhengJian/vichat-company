@@ -7,6 +7,7 @@ import router from './router'
 import store from './store'
 import iView from 'iview'
 import VueAMap from 'vue-amap';
+import * as VueGoogleMaps from 'vue2-google-maps';
 import i18n from '@/locale'
 import config from '@/config'
 import importDirective from '@/directive'
@@ -32,6 +33,13 @@ VueAMap.initAMapApiLoader({
 });
 
 
+Vue.use(VueGoogleMaps, {
+  load: {
+    key: 'AIzaSyB5DfBgoFxu_8MPchRt79ehKzo8ocG-HIA',
+    v: '0.10.2',
+    libraries: 'places'
+  }
+})
 
 Vue.use(iView, {
   i18n: (key, value) => i18n.t(key, value)
