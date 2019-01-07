@@ -67,7 +67,7 @@
                 <div class='selectOrg'>
                     <span>{{$t('user_table_modal1_org_label')}}</span>
                     <div class="treeBox">
-                        <Input type="text" @on-focus="show=true" :maxlength='20' v-model="empMes.orgName" style="width: 300px" :placeholder="user_table_modal1_org_placeholder"></Input>
+                        <Input type="text" :readonly="true" @on-focus="show=true" @on-change="change123" :maxlength='20' v-model="empMes.orgName" style="width: 300px" :placeholder="user_table_modal1_org_placeholder"></Input>
                     </div>
                 </div>
                 <org-tree v-show="show" v-on:changeOrg="addUserChangeOrg"></org-tree>
@@ -925,6 +925,8 @@ export default {
       this.show = false
       this.empMes.orgName = arr.orgName
       this.empMes.orgId = arr.orgId
+    },
+    change123(){
     },
     openAddUser () {
       this.clearEmp()

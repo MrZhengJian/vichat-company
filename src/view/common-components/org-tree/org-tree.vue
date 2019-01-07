@@ -60,6 +60,7 @@ export default {
 	},
 	methods:{
 		orgSearch(arr){
+            console.log(arr)
             if(arr.length!=0){
                 this.orgId=arr[0].id
                 this.param = ["orgId",this.orgId,{"orgId":this.orgId,"orgName":arr[0].title}]

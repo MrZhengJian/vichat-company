@@ -1,4 +1,10 @@
 export default {
+  alarmLevel: 'Alarm Level',
+  alarmLevel1: 'Common Alarm',
+  alarmLevel2: 'Urgent Alarm',
+  condition: 'Condition',
+  condition1: 'One-time Alarm',
+  condition2: 'Continuous Alarm',
   rule: 'Rule',
   week: 'week',
   week1: 'Monday',
@@ -29,6 +35,9 @@ export default {
   fenceName_placeholder2: 'Please enter fence description',
   fenceType_placeholder: 'Please select fence type',
   fenceArea_placeholder: 'Please select fence area',
+  fenceUser_placeholder: 'Please select user',
+  newfenceCreating: 'Creating in progress ...',
+  newfenceCompleted: 'Created！',
   No_entry: 'No entry',
   Prohibit_going_out: 'Prohibit going out',
 

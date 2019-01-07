@@ -38,7 +38,6 @@
                 :plugin="plugin"
                 ref="amap"
                 class="amap-demo"
-                
                 >
                   <el-amap-polygon 
                     ref="polygon" 
@@ -92,12 +91,26 @@
                           </Select>
                       </p>
                       <p>
+                          <span>{{this.$t('condition')}}：</span>
+                          <Select v-model="fenceMes.condition" style="width:300px">
+                              <Option :value="1" :key="1">{{ $t('condition1') }}</Option>
+                              <Option :value="2" :key="2">{{ $t('condition2') }}</Option>
+                          </Select>
+                      </p>
+                      <p>
+                          <span>{{this.$t('alarmLevel')}}：</span>
+                          <Select v-model="fenceMes.alarmLevel" style="width:300px">
+                              <Option :value="1" :key="1">{{ $t('alarmLevel1') }}</Option>
+                              <Option :value="2" :key="2">{{ $t('alarmLevel2') }}</Option>
+                          </Select>
+                      </p>
+                      <p>
                           <span>{{this.$t('time')}}：</span>
-                          <TimePicker v-model="timeRule.time" @on-ok="addTime" confirm format="HH:mm" type="timerange" placement="bottom-start" placeholder="Select time" style="width: 300px"></TimePicker>
+                          <TimePicker v-model="timeRule.time" @on-ok="addTime" confirm format="HH:mm" type="timerange" placement="bottom-start" :placeholder="SelectTime" style="width: 300px"></TimePicker>
                       </p>
                       <div class="timeResult">
                           <div class="item" v-for="(item,index) in timeRule.times">
-                              <span>{{item[0]}} - {{item[1]}}</span>
+                              <span>{{item[0]+' - '+item[1]}}</span>
                               <Icon @click="deleteTimeItem(index)" type="md-close" />
                           </div>
                       </div>
@@ -124,8 +137,47 @@
           </div>     
            <!-- user -->
           <div class="newfenceUser" v-if="step==3">
-            
-          </div>           
+            <Button type="primary" :disabled="refreshDisabled" @click="refresh" class="refresh">
+                {{$t('channel_details_modal1_refresh')}}
+            </Button>
+            <div class="tree">
+                <div class='selectOrg' >
+                    <span class="selectOrg-title">
+                        {{$t('channel_details_modal1_selectOrg_label')}}
+                    </span>
+                    <div class="selectOrg-content">
+                        <Input type="text" :readonly="true" :placeholder="channel_details_modal1_selectOrg_placeholder" @on-focus="showTree=true" v-model="orgName" style="width:300px;" ></Input>
+                    </div>
+                    
+                </div>
+                <org-tree v-show="showTree" v-on:changeOrg="changeOrg"></org-tree>
+                
+            </div>
+
+            <div class="transfer" ref='transfer'>
+                <Transfer
+                    :data="unadded"
+                    :target-keys="added"
+                    :listStyle="listStyle"
+                    :titles="transferTitle"
+                    filterable
+                    :filter-method="filterMethod"
+                    :operations="transferOperations"
+                    @on-change="_onChange"
+                    @on-selected-change="onSelectedChange"
+                >
+                </Transfer>
+            </div>
+          </div> 
+           <!-- finish -->    
+          <div class="newfenceFinish" v-if="step==4">
+              <div class="creating" v-if="!finished">
+                <h1>{{$t('newfenceCreating')}}...</h1>
+              </div>
+              <div class="completed" v-if="finished">
+                <h1>{{$t('newfenceCompleted')}}</h1>
+              </div>
+          </div>      
         </div>
         <div class="footer">
             <Button type="default" v-if="step!=0" @click="changeStep(-1)">{{$t('prev')}}</Button>
@@ -138,7 +190,7 @@
 
 <script type="ecmascript-6">
 import orgTree from '@/view/common-components/org-tree/table-tree'
-import { queryFence } from '@/api/fence'
+import { queryFence,createFence } from '@/api/fence'
 import { queryRoomMembers, saveRoomMembers, deleteRoomMember, batchDeleteRoomMember, setRoomMemberAdminGrade } from '@/api/channel'
 import { batchQueryUsers, queryEdposUsers } from '@/api/user-manage'
 import { dateFormat } from '@/libs/tools'
@@ -151,6 +203,9 @@ export default {
   data () {
     let _this=this;
     return {
+      partyId:this.$store.state.user.userObj.partyId,
+      step:0,
+      finished:false,
       spin: false,
       columns: [
         {
@@ -217,7 +272,9 @@ export default {
         fenceName:'',
         fenceDesc:'',
         fenceType:1,
-        regcoords:''
+        regcoords:'',
+        condition:1,
+        alarmLevel:1
       },
       pages: {
         page: 1,
@@ -225,7 +282,7 @@ export default {
         total: 0
       },
       modal1:false,
-      step:3,
+      
       zoom: 16,
       // 高德参数
       center: [0,0],
@@ -260,7 +317,6 @@ export default {
         events: {
           adjust: () => {
             this.fenceMes.regcoords=this.$refs.polygon.$$getPath()
-            // console.log(this.$refs.polygon.$$getPath())
           },
           // rightclick:()=>{
           //   this.polygon.path=[]
@@ -268,21 +324,21 @@ export default {
         }
       },
       // 谷歌参数
-      mapCenter:{lng: 121.478341,lat:31.239704 },
-      gmapPolygon:{
-        draggable: true,
-        editable: true,
-        paths:[
-          {lat: 31.21915044, lng: 121.5273285},
-          {lat: 31.21515044, lng: 121.5273285},
-          {lat: 31.21515044, lng: 121.5293285},
-          {lat: 31.21915044, lng: 121.5293285}
-        ],
-        strokeColor:'#2b85e4',
-        strokeWeight:2,
-        fillColor:'#2db7f5',
-        fillOpacity:0.5,
-      },
+      // mapCenter:{lng: 121.478341,lat:31.239704 },
+      // gmapPolygon:{
+      //   draggable: true,
+      //   editable: true,
+      //   paths:[
+      //     {lat: 31.21915044, lng: 121.5273285},
+      //     {lat: 31.21515044, lng: 121.5273285},
+      //     {lat: 31.21515044, lng: 121.5293285},
+      //     {lat: 31.21915044, lng: 121.5293285}
+      //   ],
+      //   strokeColor:'#2b85e4',
+      //   strokeWeight:2,
+      //   fillColor:'#2db7f5',
+      //   fillOpacity:0.5,
+      // },
       
       // [[121.5273285, 31.21915044], [121.5273285, 31.21515044], [121.5293285, 31.21515044] ,[121.5293285, 31.21915044]],
 
@@ -291,9 +347,10 @@ export default {
       // rule
       tab:1,
       timeRule:{
-        time:['00:00','23:590'],
+        time:[],
         times:[],
-        type:3
+        type:3,
+        date:[]
       },
       weekList:[true,true,true,true,true,true,true],
       monthList:[true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true],
@@ -310,14 +367,10 @@ export default {
         rows: 10
       },
       // 穿梭框数据
-      showTree: false,
-      orgName: '',
-      orgId: '',
-
       unadded: [],
       added: [],
       listStyle: {
-        width: '330px',
+        width: '344px',
         height: '380px'
       },
       transferTitle: [
@@ -343,6 +396,7 @@ export default {
       week:this.$t('week'),
       month:this.$t('month'),
       everyday:this.$t('everyday'),
+      SelectTime:this.$t('select_time'),
     }
   },
 
@@ -399,23 +453,63 @@ export default {
       this.modal1=true
     },
     changeStep(n){
-      // if(this.step==0){
-      //   if(this.fenceMes.fenceName==''){
-      //     this.$Message.error(this.$t('fenceName_placeholder1'))
-      //     return
-      //   }
-      //   if(this.fenceMes.fenceDesc==''){
-      //     this.$Message.error(this.$t('fenceName_placeholder2'))
-      //     return
-      //   }
-      // }
+      if(n==1){
+        if(this.step==0){
+          if(this.fenceMes.fenceName==''){
+            this.$Message.error(this.$t('fenceName_placeholder1'))
+            return
+          }
+          if(this.fenceMes.fenceDesc==''){
+            this.$Message.error(this.$t('fenceName_placeholder2'))
+            return
+          }
+        }
 
-      // if(this.step==1){
-      //   if(this.fenceMes.regcoords==''&&this.polygon.path.length==0){
-      //     this.$Message.error(this.$t('fenceArea_placeholder'))
-      //     return
-      //   }
-      // }
+        if(this.step==1){
+          this.fenceMes.regcoords = this.$refs.polygon.$$getPath()
+          if(this.fenceMes.regcoords.length==0||this.polygon.path.length==0){
+            this.$Message.error(this.$t('fenceArea_placeholder'))
+            return
+          }
+        }
+
+        if(this.step==2){
+          if(this.timeRule.times.length==0){
+            this.$Message.error(this.$t('select_time'))
+            return
+          }
+
+          this.timeRule.date=[]
+          let arr = []
+          if(this.timeRule.type==1){
+            arr = this.weekList
+          }else if(this.timeRule.type==2){
+            arr = this.monthList 
+          }
+          for(let i=0;i<arr.length;i++){
+            if(!arr[i]){
+              this.timeRule.date.push(i+1)
+            }
+          }
+
+          if(this.timeRule.type!=3&&this.timeRule.date.length==0){
+            this.$Message.error(this.$t('home_echart_select_date'))
+            return
+          }
+
+          if(this.timeRule.type==3){
+            this.timeRule.date=-1
+          }
+        }
+
+        if(this.step==3){
+          if(this.added.length==0){
+            this.$Message.error(this.$t('fenceUser_placeholder'))
+            return
+          }
+          this.createFence()
+        }
+      }
 
       this.step+=n
     },
@@ -440,9 +534,13 @@ export default {
     drawPolygon(){
         let center = this.$refs.amap.$$getCenter()
         if(this.polygon.path.length==0){
-          this.polygon.path=[[center[0]-0.001,center[1]+0.001],[center[0]+0.001,center[1]+0.001],[center[0]+0.001,center[1]-0.001],[center[0]-0.001,center[1]-0.001]]
+          this.polygon.path=[
+              [center[0]-0.001,center[1]+0.001],
+              [center[0]+0.001,center[1]+0.001],
+              [center[0]+0.001,center[1]-0.001],
+              [center[0]-0.001,center[1]-0.001]
+            ]
         }
-        
     },
     deletePolygon(){
       this.polygon.path=[]
@@ -478,7 +576,73 @@ export default {
       arr.splice(n,1,!arr[n])
     },
     // user
-   
+    // 成员框中按组织查找
+    changeOrg (arr) {
+      let _this = this
+      this.showTree = false
+      this.orgName = arr.orgName
+      this.searchParams.orgId = arr.orgId
+      this.searchParams.rows = 2147483647
+      queryEdposUsers(this.searchParams)
+        .then(function (res) {
+          _this.unadded = []
+          for (let i = 0, arr = res.data.data; i < arr.length; i++) {
+            let obj = {
+              key: arr[i].uid.toString(),
+              label: arr[i].userName + '【' + arr[i].orgName + '】'
+            }
+            _this.unadded.push(obj)
+          }
+        })
+    },
+
+    createFence(){
+      let data = {
+        districtFence:{
+          partyId:this.partyId,
+          fenceName:this.fenceMes.fenceName,
+          fenceDesc:this.fenceMes.fenceDesc,
+          fenceType:this.fenceMes.fenceType,
+          regcoords:this.fenceMes.regcoords,
+          alarmLevel:this.fenceMes.alarmLevel
+        },
+        districtFenceUser:{
+          ids:this.added,
+          type:3,
+        },
+        districtFenceRule:{
+          ruleCondition:this.fenceMes.condition,
+          ruleJson:{
+            ruleTime:this.timeRule.times,
+            ruleDate:this.timeRule.date.join(','),
+          },
+          ruleType:this.timeRule.type,
+        }
+        
+       
+      }
+      // console.log(data)
+      createFence(data)
+      .then(res=>{
+        console.log(res)
+      })
+    },
+    refresh(){
+      this.orgName = ''
+      this.unadded = []
+      this.added = []
+    },
+    filterMethod (data, query) {
+      data = data.label
+      query = query.toLowerCase()
+      return data.toLowerCase().indexOf(query) > -1
+    },
+    _onChange (targetKeys, direction, moveKeys) {
+      this.added = targetKeys
+    },
+    onSelectedChange (sourceSelectedKeys, targetSelectedKeys) {
+      this.leftSelected = sourceSelectedKeys
+    },
   },
   computed: {
     channel_details_modal1_selectOrg_placeholder: function () {

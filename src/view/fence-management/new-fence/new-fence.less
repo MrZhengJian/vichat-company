@@ -3,7 +3,6 @@
 	position: absolute;
 	top: 18px;right: 18px;left: 18px;bottom: 18px;
 	.content{
-		font-size: 16px;
 		position: absolute;
 		top: 80px;
 		bottom: 50px;
@@ -90,6 +89,8 @@
 									height: 32PX;
 									line-height: 32px;
 									float: left;
+									width: 60px;
+									text-align: right
 								}
 								.ivu-radio-group{
 									height: 32px;
@@ -100,7 +101,7 @@
 								}
 							}
 							.timeResult{
-								padding-left:173px;
+								padding-left:162px;
 								.item{
 									position: relative;
 									display:inline-block;
@@ -126,7 +127,7 @@
 								}
 							}
 							.typeResult{
-								padding-left:173px;
+								padding-left:162px;
 								.weekItem{
 									span{
 										font-size:12px; 
@@ -158,9 +159,13 @@
 		.newfenceUser{
 			width: 800px;
 			margin:0 auto;
+			.refresh{
+				float: right;
+				position: relative;
+				z-index: 100;
+			}
 			.tree{
 				position: relative;
-				padding:0 22px;
 				
 				.selectOrg{
 					position: relative;
@@ -171,7 +176,6 @@
 					float:none;
 				}
 				.selectOrg .selectOrg-title{
-					width: 140px;
 					display:inline-block;
 					text-align: right;
 					vertical-align: middle;
@@ -186,7 +190,7 @@
 					min-height: 18px;
 					position: absolute;
 					top: 36px;
-					left: 163px;
+					left: 84px;
 					z-index: 100;
 					background: #fff;
 					border:1px solid #57A3F3;
