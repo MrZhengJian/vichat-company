@@ -1,5 +1,8 @@
 export default {
-  alarmLevel: 'Alarm Level',
+  clear: 'Clear',
+  pleaseto: 'Please to ',
+  page: ' page ',
+  alarmLevel: 'Level',
   alarmLevel1: 'Common Alarm',
   alarmLevel2: 'Urgent Alarm',
   condition: 'Condition',
@@ -36,7 +39,7 @@ export default {
   fenceType_placeholder: 'Please select fence type',
   fenceArea_placeholder: 'Please select fence area',
   fenceUser_placeholder: 'Please select user',
-  newfenceCreating: 'Creating in progress ...',
+  newfenceCreating: 'Creating ...',
   newfenceCompleted: 'Created！',
   No_entry: 'No entry',
   Prohibit_going_out: 'Prohibit going out',
@@ -380,7 +383,7 @@ export default {
   org_table_add_ok: 'Adding succeeded',
   org_table_delete_ok: 'Deleting succeeded',
   // role
-  add_role: 'Add role',
+  add_role: 'Add Role',
   search_role_placeholder: 'Please enter the name or description',
   role_name: 'Role Name',
   role_desc: 'Role Description',

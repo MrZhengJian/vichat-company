@@ -162,10 +162,36 @@ export default {
             ])
           }
         },
-     
+        {
+          title: this.$t('channel_col_switch'),
+          render: (h, params) => {
+            let _this = this
+              return h('div', [
+                h('i-switch',{
+                      on: {
+                        input: function (event) {  //这里会起到监听的作用
+                          if (event) { params.row.record = 1 } 
+                          else { params.row.record = 0 }
+                        },
+                        'on-change': () => {
+                          // console.log(this.$store.state.user.record)
+                            switchRec({
+                              'rid':params.row.rid,
+                              'recSwitch':params.row.record==1?'U':'X'
+                            })
+                        }
+                      },
+                      props: {
+                          value:params.row.record==1,
+                          disabled:!this.$store.state.user.record
+                      }  
+                  })
+              ])
+          }
+        },
         {
           title: this.$t('channel_create_time'),
-          key: 'ownerName',
+          key: 'createTime',
           ellipsis: true,
           render: (h, params) => {
             return h('Tooltip', {

@@ -1,5 +1,8 @@
 export default {
-  alarmLevel: '告警等级',
+  clear: '清除',
+  pleaseto: '请到',
+  page: '页面',
+  alarmLevel: '等级',
   alarmLevel1: '普通告警',
   alarmLevel2: '紧急告警',
   condition: '条件',

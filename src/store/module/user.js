@@ -104,7 +104,7 @@ export default {
           commit('setUserObj', data.obj.user)
           commit('setUserOrg', data.obj.userOrg)
           commit('setUserPartyCompany', data.obj.userPartyCompany)
-          commit('setRecord', data.obj.userPartyCompany.record)
+          commit('setRecord', data.obj.record)
 
           commit('setFuncObj', data.obj.functions)
           resolve(data)

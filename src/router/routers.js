@@ -145,47 +145,47 @@ export default [
       },
     ]
   },
-  {
-    path: '/fence_management',
-    name: 'fence_management',
-    component: Main,
-    meta: {
-      icon: 'ios-warning',
-      title: i18n.t('fence_management'),
-    },
-    children: [
-      {
-        path: '/new_fence',
-        name: 'new_fence',
-        meta: {
-          title: i18n.t('new_fence'),
-          icon: 'ios-warning',
-          hideInMenu: false,
-        },
-        component: () => import('@/view/fence-management/new-fence/new-fence.vue')
-      },
-      {
-        path: '/district_fence',
-        name: 'district_fence',
-        meta: {
-          title: i18n.t('district_fence'),
-          icon: 'ios-warning',
-          hideInMenu: false,
-        },
-        component: () => import('@/view/fence-management/district-fence/district-fence.vue')
-      },
-      {
-        path: '/fence_alarm',
-        name: 'fence_alarm',
-        meta: {
-          title: i18n.t('fence_alarm'),
-          icon: 'ios-warning',
-          hideInMenu: false,
-        },
-        component: () => import('@/view/fence-management/fence-alarm/fence-alarm.vue')
-      },
-    ]
-  },
+  // {
+  //   path: '/fence_management',
+  //   name: 'fence_management',
+  //   component: Main,
+  //   meta: {
+  //     icon: 'ios-warning',
+  //     title: i18n.t('fence_management'),
+  //   },
+  //   children: [
+  //     {
+  //       path: '/new_fence',
+  //       name: 'new_fence',
+  //       meta: {
+  //         title: i18n.t('new_fence'),
+  //         icon: 'ios-warning',
+  //         hideInMenu: false,
+  //       },
+  //       component: () => import('@/view/fence-management/new-fence/new-fence.vue')
+  //     },
+  //     {
+  //       path: '/district_fence',
+  //       name: 'district_fence',
+  //       meta: {
+  //         title: i18n.t('district_fence'),
+  //         icon: 'ios-warning',
+  //         hideInMenu: false,
+  //       },
+  //       component: () => import('@/view/fence-management/district-fence/district-fence.vue')
+  //     },
+  //     {
+  //       path: '/fence_alarm',
+  //       name: 'fence_alarm',
+  //       meta: {
+  //         title: i18n.t('fence_alarm'),
+  //         icon: 'ios-warning',
+  //         hideInMenu: false,
+  //       },
+  //       component: () => import('@/view/fence-management/fence-alarm/fence-alarm.vue')
+  //     },
+  //   ]
+  // },
   {
     path: '/_call_records',
     name: '_call_records',
@@ -204,6 +204,28 @@ export default [
           hideInMenu: false,
         },
         component: () => import('@/view/call-records/call-records.vue')
+      },
+    ]
+  },
+  {
+    path: '/rec_management',
+    name: 'rec_management',
+    component: Main,
+    meta: {
+      icon: 'ios-videocam',
+      title: i18n.t('rec_management'),
+    },
+    
+    children: [
+      {
+        path: '/rec',
+        name: 'rec',
+        meta: {
+          title: i18n.t('rec'),
+          icon: 'ios-videocam',
+          hideInMenu: false,
+        },
+        component: () => import('@/view/rec-management/rec-management.vue')
       },
     ]
   },
