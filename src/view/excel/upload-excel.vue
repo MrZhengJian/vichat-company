@@ -26,7 +26,7 @@
         </transition>
       </Row>
     <Row class="margin-top-10 utable">
-      <Table :columns="tableTitle" :data="tableData" :loading="tableLoading"></Table>
+      <Table stripe :columns="tableTitle" :data="tableData" :loading="tableLoading"></Table>
     </Row>
   </div>
 </template>

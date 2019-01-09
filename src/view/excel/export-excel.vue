@@ -9,7 +9,7 @@
       </Row>
     </Card>
     <Row class="margin-top-10">
-      <Table :columns="tableTitle" :data="tableData"></Table>
+      <Table :columns="tableTitle" stripe :data="tableData"></Table>
     </Row>
   </div>
 </template>
